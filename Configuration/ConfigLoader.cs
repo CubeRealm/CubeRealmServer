@@ -7,7 +7,6 @@ namespace Configuration;
 
 public class ConfigLoader : IConfigLoader
 {
-
     private ILogger<ConfigLoader> Logger { get; }
 
     private Dictionary<string, List<string>> Resources => new Dictionary<string, List<string>>()
@@ -35,32 +34,13 @@ public class ConfigLoader : IConfigLoader
         }
     }
 
-    public void Save(object obj, string path)
-    {
-        path = Path.Combine(Directory.GetCurrentDirectory(), path);
-
-        string output = JsonConvert.SerializeObject(obj);
-        if(File.Exists(path)) return;
-
-        try
-        {
-            File.Create(path);
-            File.WriteAllText(path, output);
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e.Message);
-            throw;
-        }
-    }
-
-    public void SaveDefaults()
+    public void SaveDefaults(string saveToDir)
     {
         const string allResources = "Configuration.Resources.";
         
         foreach (var items in Resources)
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), items.Key);
+            string filePath = Path.Combine(saveToDir, items.Key);
 
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
@@ -70,7 +50,7 @@ public class ConfigLoader : IConfigLoader
         }
     }
 
-    private void SaveResource(string assemblyFile, string file, bool overrideFile = false)
+    private void SaveResource(string assemblyFile, string file)
     {
         if (File.Exists(file))
             return;
