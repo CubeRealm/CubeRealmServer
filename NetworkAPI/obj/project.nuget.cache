@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "b9HmnC9uzxsAFdFUcaAHdlIjnezPXtsoskQevdok2EBwTY7CUylT8nyo8mv0ZB25oWu/VVBZW4h6OOEfD9m4mQ==",
+  "dgSpecHash": "Pc9n+uoW5UNoPFCH0ss7YdnPvW55UrovNN9bcysSpU7DGRmxlf9JBYbIT4cmQG+Ewly1FdumtgcMLqLSW+wFlA==",
   "success": true,
   "projectFilePath": "/home/kot_200_80/Sources/C#/CubeRealmServer/NetworkAPI/NetworkAPI.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/kot_200_80/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "/home/kot_200_80/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/home/kot_200_80/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
+    "/home/kot_200_80/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/home/kot_200_80/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "/home/kot_200_80/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
