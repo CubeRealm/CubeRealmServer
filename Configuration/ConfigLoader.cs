@@ -20,10 +20,7 @@ public class ConfigLoader : IConfigLoader
     public IWorldConfig WorldConfig => _worldConfig;
     public IMobsSpawnConfig MobsSpawnConfig => _mobsSpawnConfig;
 
-    private Dictionary<string, List<string>> Resources => new()
-    {
-        { "settings", ["mobs_spawn.json", "server.json", "world.json"] }
-    };
+    private List<string> Resources => ["mobs_spawn.json", "server.json", "world.json"];
 
     public ConfigLoader(ILogger<ConfigLoader> logger)
     {
@@ -41,8 +38,9 @@ public class ConfigLoader : IConfigLoader
     {
         try
         {
+            T? toReturn = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
             Logger.LogTrace($"{path} Loaded successful");
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+            return toReturn;
         }
         catch (Exception e)
         {
@@ -53,17 +51,11 @@ public class ConfigLoader : IConfigLoader
 
     public void SaveDefaults(string saveToDir)
     {
-        const string allResources = "Configuration.Resources.";
+        const string allResources = $"Configuration.Resources.";
         
-        foreach (var items in Resources)
+        foreach (var item in Resources)
         {
-            string filePath = Path.Combine(saveToDir, items.Key);
-
-            if (!Directory.Exists(filePath))
-                Directory.CreateDirectory(filePath);
-            
-            foreach (var fileName in items.Value)
-                SaveResource($"{fileName}", Path.Combine(filePath, fileName));
+            SaveResource($"{allResources}{item}", Path.Combine(saveToDir, item));
         }
     }
 

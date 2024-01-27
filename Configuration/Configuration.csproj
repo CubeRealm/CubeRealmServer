@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\settings\mobs_spawn.json">
+      <EmbeddedResource Include="Resources\mobs_spawn.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
-      <EmbeddedResource Include="Resources\settings\server.json">
+      <EmbeddedResource Include="Resources\server.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
-      <EmbeddedResource Include="Resources\settings\world.json">
+      <EmbeddedResource Include="Resources\world.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>

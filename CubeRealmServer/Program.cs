@@ -23,7 +23,11 @@ class Program
             workDirectory = args[debugIndex + 1];
         
         string pluginsPath = Path.Combine(workDirectory, "plugins");
+        if (!Directory.Exists(pluginsPath))
+            Directory.CreateDirectory(pluginsPath);
         string configPath = Path.Combine(workDirectory, "settings");
+        if (!Directory.Exists(configPath))
+            Directory.CreateDirectory(configPath);
         
         List<Type> plugins = new();
 
@@ -45,8 +49,7 @@ class Program
             .AddFromDirectory(pluginsPath, PluginsLoader)
             .BuildServiceProvider();
 
-        IServiceProvider scopedServiceProvider = serviceProvider.CreateScope().ServiceProvider;
-        ConfigLoader configLoader = (ConfigLoader)scopedServiceProvider.GetRequiredService<IConfigLoader>();
+        ConfigLoader configLoader = (ConfigLoader)serviceProvider.GetRequiredService<IConfigLoader>();
         configLoader.SaveDefaults(configPath);
         configLoader.LoadConfigs(configPath);
     }
