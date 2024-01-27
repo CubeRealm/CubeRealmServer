@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Configuration.Configurations;
 
-public class MobsSpawnConfig : IMobsSpawnConfig
+public struct MobsSpawnConfig : IMobsSpawnConfig
 {
     
     [JsonProperty("spawn_animals")] public bool SpawnAnimals { get; }

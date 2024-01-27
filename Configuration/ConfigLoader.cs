@@ -1,5 +1,7 @@
 using System.Reflection;
+using Configuration.Configurations;
 using ConfigurationAPI;
+using ConfigurationAPI.Configurations;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -7,9 +9,18 @@ namespace Configuration;
 
 public class ConfigLoader : IConfigLoader
 {
+    
     private ILogger<ConfigLoader> Logger { get; }
 
-    private Dictionary<string, List<string>> Resources => new Dictionary<string, List<string>>()
+    private ServerConfig _serverConfig;
+    private WorldConfig _worldConfig;
+    private MobsSpawnConfig _mobsSpawnConfig;
+    
+    public IServerConfig ServerConfig => _serverConfig;
+    public IWorldConfig WorldConfig => _worldConfig;
+    public IMobsSpawnConfig MobsSpawnConfig => _mobsSpawnConfig;
+
+    private Dictionary<string, List<string>> Resources => new()
     {
         { "settings", ["mobs_spawn.json", "server.json", "world.json"] }
     };
@@ -18,13 +29,19 @@ public class ConfigLoader : IConfigLoader
     {
         Logger = logger;
     }
+    
+    public void LoadConfigs(string path)
+    {
+        _serverConfig = Load<ServerConfig>(Path.Combine(path, "server.json"));
+        _worldConfig = Load<WorldConfig>(Path.Combine(path, "world.json"));
+        _mobsSpawnConfig = Load<MobsSpawnConfig>(Path.Combine(path, "mobs_spawn.json"));
+    }
 
     public T? Load<T>(string path)
     {
-        path = Path.Combine(Directory.GetCurrentDirectory(), path);
-
         try
         {
+            Logger.LogTrace($"{path} Loaded successful");
             return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
         catch (Exception e)
