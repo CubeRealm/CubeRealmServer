@@ -1,6 +1,6 @@
 namespace ConfigurationAPI;
 
-public class IConfigLoader
+public interface IConfigLoader
 {
     
 }

@@ -60,14 +60,13 @@ public class ConfigLoader : IConfigLoader
         
         foreach (var items in Resources)
         {
-            string assemblyPath = $"{allResources}content.base.{items.Key}.";
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), items.Key);
 
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
             
             foreach (var fileName in items.Value)
-                SaveResource($"{assemblyPath}{fileName}", Path.Combine(filePath, fileName));
+                SaveResource($"{fileName}", Path.Combine(filePath, fileName));
         }
     }
 
