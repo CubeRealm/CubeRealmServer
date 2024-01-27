@@ -6,10 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <None Remove="Resources\server.json" />
-      <None Remove="Resources\mobs_spawn.json" />
-      <None Remove="Resources\world.json" />
-    </ItemGroup>
-
 </Project>

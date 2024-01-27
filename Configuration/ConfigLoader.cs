@@ -29,6 +29,6 @@ public class ConfigLoader : IConfigLoader
         }
     }
     
-    public void Save(object obj)
+    public void Save(object obj) {}
     
 }
