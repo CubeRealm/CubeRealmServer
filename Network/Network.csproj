@@ -7,9 +7,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\NetworkAPI\NetworkAPI.csproj" />
-      <ProjectReference Include="..\Network\Network.csproj" />
-    </ItemGroup>
-
 </Project>
