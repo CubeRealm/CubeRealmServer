@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/systemdev/RiderProjects/CubeRealmServer/PluginAPI/PluginAPI.csproj": {}
+    "/home/kot_200_80/Sources/C#/CubeRealmServer/PluginAPI/PluginAPI.csproj": {}
   },
   "projects": {
-    "/home/systemdev/RiderProjects/CubeRealmServer/PluginAPI/PluginAPI.csproj": {
+    "/home/kot_200_80/Sources/C#/CubeRealmServer/PluginAPI/PluginAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/systemdev/RiderProjects/CubeRealmServer/PluginAPI/PluginAPI.csproj",
+        "projectUniqueName": "/home/kot_200_80/Sources/C#/CubeRealmServer/PluginAPI/PluginAPI.csproj",
         "projectName": "PluginAPI",
-        "projectPath": "/home/systemdev/RiderProjects/CubeRealmServer/PluginAPI/PluginAPI.csproj",
-        "packagesPath": "/home/systemdev/.nuget/packages/",
-        "outputPath": "/home/systemdev/RiderProjects/CubeRealmServer/PluginAPI/obj/",
+        "projectPath": "/home/kot_200_80/Sources/C#/CubeRealmServer/PluginAPI/PluginAPI.csproj",
+        "packagesPath": "/home/kot_200_80/.nuget/packages/",
+        "outputPath": "/home/kot_200_80/Sources/C#/CubeRealmServer/PluginAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/systemdev/.nuget/NuGet/NuGet.Config"
+          "/home/kot_200_80/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/systemdev/dotnet-sdk-8.0.101-linux-x64/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/mnt/DataLibrary2/Development/Tools/dotnet8/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

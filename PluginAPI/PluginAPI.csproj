@@ -15,18 +15,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="bin\**" />
       <Compile Remove="obj\**" />
+      <Compile Remove="bin\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="bin\**" />
       <EmbeddedResource Remove="obj\**" />
+      <EmbeddedResource Remove="bin\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="bin\**" />
       <None Remove="obj\**" />
+      <None Remove="bin\**" />
     </ItemGroup>
 
 </Project>
