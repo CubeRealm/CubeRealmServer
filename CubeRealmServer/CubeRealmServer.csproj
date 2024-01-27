@@ -20,4 +20,23 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="bin\Debug\net8.0\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="bin\**" />
+      <Compile Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="bin\**" />
+      <EmbeddedResource Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="bin\**" />
+      <None Remove="obj\**" />
+    </ItemGroup>
+
 </Project>
