@@ -2,15 +2,15 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRealmServer", "CubeRealmServer\CubeRealmServer.csproj", "{D65362FD-2954-42A3-A65E-6FB545B7C938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkAPI", "NetworkAPI\NetworkAPI.csproj", "{C99D6F62-9FEC-476C-A856-C2F2620D3BB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network.API", "Network.API\Network.API.csproj", "{C99D6F62-9FEC-476C-A856-C2F2620D3BB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network", "Network\Network.csproj", "{7E7E381F-8532-40EF-AA4E-B5B90FAC3499}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginAPI", "PluginAPI\PluginAPI.csproj", "{263993B3-5E86-4D51-925D-4A95B3CF924F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.API", "Plugin.API\Plugin.API.csproj", "{263993B3-5E86-4D51-925D-4A95B3CF924F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Configuration\Configuration.csproj", "{AB1803F0-A1E0-4264-9752-FB0883A42586}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationAPI", "ConfigurationAPI\ConfigurationAPI.csproj", "{A1456A71-9835-4407-94A0-22FC77727EB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.API", "Configuration.API\Configuration.API.csproj", "{A1456A71-9835-4407-94A0-22FC77727EB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

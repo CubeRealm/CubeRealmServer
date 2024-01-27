@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ConfigurationAPI\ConfigurationAPI.csproj" />
+      <ProjectReference Include="..\Configuration.API\Configuration.API.csproj" />
       <ProjectReference Include="..\Configuration\Configuration.csproj" />
-      <ProjectReference Include="..\NetworkAPI\NetworkAPI.csproj" />
+      <ProjectReference Include="..\Network.API\Network.API.csproj" />
       <ProjectReference Include="..\Network\Network.csproj" />
-      <ProjectReference Include="..\PluginAPI\PluginAPI.csproj" />
+      <ProjectReference Include="..\Plugin.API\Plugin.API.csproj" />
     </ItemGroup>
 
     <ItemGroup>

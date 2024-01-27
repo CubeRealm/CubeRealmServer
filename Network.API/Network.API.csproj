@@ -4,14 +4,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>NetworkAPI</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="bin\Debug\net8.0\" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,6 +24,10 @@
     <ItemGroup>
       <None Remove="obj\**" />
       <None Remove="bin\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="bin\Debug\net8.0\" />
     </ItemGroup>
 
 </Project>

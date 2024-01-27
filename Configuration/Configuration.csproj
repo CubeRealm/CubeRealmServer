@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ConfigurationAPI\ConfigurationAPI.csproj" />
+      <ProjectReference Include="..\Configuration.API\Configuration.API.csproj" />
     </ItemGroup>
 
     <ItemGroup>
