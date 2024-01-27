@@ -13,17 +13,17 @@
 /dataSources.local.xml
 
 
-/CubeRealmServer/CubeRealmServer/bin/
-/CubeRealmServer/CubeRealmServer/obj/
-/CubeRealmServer/CubeRealmServer/bin/*
-/CubeRealmServer/CubeRealmServer/obj/*
+/CubeRealmServer/bin/
+/CubeRealmServer/obj/
+/CubeRealmServer/bin/*
+/CubeRealmServer/obj/*
 
-/CubeRealmServer/Network/bin/
-/CubeRealmServer/Network/obj/
-/CubeRealmServer/Network/bin/*
-/CubeRealmServer/Network/obj/*
+/Network/bin/
+/Network/obj/
+/Network/bin/*
+/Network/obj/*
 
-/CubeRealmServer/NetworkAPI/bin/
-/CubeRealmServer/NetworkAPI/obj/
-/CubeRealmServer/NetworkAPI/bin/*
-/CubeRealmServer/NetworkAPI/obj/*
+/NetworkAPI/bin/
+/NetworkAPI/obj/
+/NetworkAPI/bin/*
+/NetworkAPI/obj/*
