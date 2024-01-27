@@ -1,56 +1,57 @@
-﻿using Configuration;
-using ConfigurationAPI;
+﻿using System.Reflection;
+using CubeRealm.Config;
+using CubeRealmServer.API;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Plugin;
 using PluginAPI;
 
 namespace CubeRealmServer;
 
 class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        Main(args.ToList());
+        IHostEnv context = new HostEnv(AppContext.BaseDirectory);
+        
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        string resourceName = "CubeRealmServer.appsettings.json";
+        string configPath = Path.Combine(context.ContentRoot, "appsettings.json");
+        if (!File.Exists(configPath))
+            await using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (StreamReader reader = new StreamReader(stream))
+                    await File.WriteAllTextAsync(configPath, await reader.ReadToEndAsync());
+                    
+        IHost host = Host.CreateDefaultBuilder(args)
+            .ConfigureLogging(builder => builder.AddSimpleConsole(options =>
+                {
+                    options.ColorBehavior = LoggerColorBehavior.Enabled;
+                    options.IncludeScopes = true;
+                    options.TimestampFormat = "HH:mm:ss.fff ";
+                }))
+            .UseContentRoot(context.ContentRoot)
+            .ConfigureAppConfiguration(builder => 
+                builder.AddJsonFile(configPath))
+            .ConfigureServices((builderContext, collection) => 
+                Configure(builderContext, collection.AddSingleton(context)))
+            .UseConsoleLifetime()
+            .Build();
+        
+        await host.StartAsync();
     }
 
-    public static void Main(List<string> args)
+    private static void Configure(HostBuilderContext ctx, IServiceCollection services)
     {
-        int debugIndex = args.IndexOf("--debug");
-        string workDirectory = ".";
-
-        if (debugIndex != -1)
-            workDirectory = args[debugIndex + 1];
+        var section = ctx.Configuration.GetSection("Server");
+        services.AddOptions<ServerSettings>().Bind(section);
         
-        string pluginsPath = Path.Combine(workDirectory, "plugins");
-        if (!Directory.Exists(pluginsPath))
-            Directory.CreateDirectory(pluginsPath);
-        string configPath = Path.Combine(workDirectory, "settings");
-        if (!Directory.Exists(configPath))
-            Directory.CreateDirectory(configPath);
-        
-        List<Type> plugins = new();
-
-        void PluginsLoader(IServiceCollection collection, Type type)
-        {
-            collection.AddScoped(type);
-            plugins.Add(type);
-        }
-
-        ServiceProvider serviceProvider = new ServiceCollection()
-            .AddLogging(builder => builder.AddSimpleConsole(options =>
-            {
-                options.ColorBehavior = LoggerColorBehavior.Enabled;
-                options.IncludeScopes = true;
-                options.TimestampFormat = "HH:mm:ss.fff ";
-            }).SetMinimumLevel(debugIndex != -1 ? LogLevel.Trace : LogLevel.Information))
-            //Configuration
-            .AddSingleton<IConfigLoader, ConfigLoader>()
-            .AddFromDirectory(pluginsPath, PluginsLoader)
-            .BuildServiceProvider();
-
-        ConfigLoader configLoader = (ConfigLoader)serviceProvider.GetRequiredService<IConfigLoader>();
-        configLoader.SaveDefaults(configPath);
-        configLoader.LoadConfigs(configPath);
+        services.AddLogging()
+            //Plugins
+            .AddSingleton<IPluginActivator, PluginActivator>()
+            .AddSingleton<IMinecraftServer, MinecraftServer>()
+            .AddHostedService<MinecraftServer>();
     }
 }
