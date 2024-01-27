@@ -365,7 +365,6 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Microsoft.Extensions.DependencyInjection >= 8.0.0",
       "Microsoft.Extensions.Logging >= 8.0.0"
     ]
   },
@@ -406,10 +405,6 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection": {
-            "target": "Package",
-            "version": "[8.0.0, )"
-          },
           "Microsoft.Extensions.Logging": {
             "target": "Package",
             "version": "[8.0.0, )"
