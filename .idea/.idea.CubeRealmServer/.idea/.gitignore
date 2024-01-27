@@ -11,3 +11,19 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+
+/CubeRealmServer/CubeRealmServer/bin/
+/CubeRealmServer/CubeRealmServer/obj/
+/CubeRealmServer/CubeRealmServer/bin/*
+/CubeRealmServer/CubeRealmServer/obj/*
+
+/CubeRealmServer/Network/bin/
+/CubeRealmServer/Network/obj/
+/CubeRealmServer/Network/bin/*
+/CubeRealmServer/Network/obj/*
+
+/CubeRealmServer/NetworkAPI/bin/
+/CubeRealmServer/NetworkAPI/obj/
+/CubeRealmServer/NetworkAPI/bin/*
+/CubeRealmServer/NetworkAPI/obj/*
