@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/systemdev/RiderProjects/CubeRealmServer/NetworkAPI/NetworkAPI.csproj": {}
+    "/home/kot_200_80/Sources/C#/CubeRealmServer/NetworkAPI/NetworkAPI.csproj": {}
   },
   "projects": {
-    "/home/systemdev/RiderProjects/CubeRealmServer/NetworkAPI/NetworkAPI.csproj": {
+    "/home/kot_200_80/Sources/C#/CubeRealmServer/NetworkAPI/NetworkAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/systemdev/RiderProjects/CubeRealmServer/NetworkAPI/NetworkAPI.csproj",
+        "projectUniqueName": "/home/kot_200_80/Sources/C#/CubeRealmServer/NetworkAPI/NetworkAPI.csproj",
         "projectName": "NetworkAPI",
-        "projectPath": "/home/systemdev/RiderProjects/CubeRealmServer/NetworkAPI/NetworkAPI.csproj",
-        "packagesPath": "/home/systemdev/.nuget/packages/",
-        "outputPath": "/home/systemdev/RiderProjects/CubeRealmServer/NetworkAPI/obj/",
+        "projectPath": "/home/kot_200_80/Sources/C#/CubeRealmServer/NetworkAPI/NetworkAPI.csproj",
+        "packagesPath": "/home/kot_200_80/.nuget/packages/",
+        "outputPath": "/home/kot_200_80/Sources/C#/CubeRealmServer/NetworkAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/systemdev/.nuget/NuGet/NuGet.Config"
+          "/home/kot_200_80/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/systemdev/dotnet-sdk-8.0.101-linux-x64/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/mnt/DataLibrary2/Development/Tools/dotnet8/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
