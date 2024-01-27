@@ -28,18 +28,20 @@ public class ConfigLoader : IConfigLoader
     public ConfigLoader(ILogger<ConfigLoader> logger)
     {
         Logger = logger;
-
-        _serverConfig = Load<ServerConfig>("settings/server.json");
-        _worldConfig = Load<WorldConfig>("settings/world.json");
-        _mobsSpawnConfig = Load<MobsSpawnConfig>("settings/mobs_spawn.json");
+    }
+    
+    public void LoadConfigs(string path)
+    {
+        _serverConfig = Load<ServerConfig>(Path.Combine(path, "server.json"));
+        _worldConfig = Load<WorldConfig>(Path.Combine(path, "world.json"));
+        _mobsSpawnConfig = Load<MobsSpawnConfig>(Path.Combine(path, "mobs_spawn.json"));
     }
 
     public T? Load<T>(string path)
     {
-        path = Path.Combine(Directory.GetCurrentDirectory(), path);
-
         try
         {
+            Logger.LogTrace($"{path} Loaded successful");
             return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
         catch (Exception e)
