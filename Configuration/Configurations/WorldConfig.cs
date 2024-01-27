@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Configuration.Configurations;
 
-public class WorldConfig : IWorldConfig
+public struct WorldConfig : IWorldConfig
 {
     
     [JsonProperty("world_prefix")] public string WorldPrefix { get; }

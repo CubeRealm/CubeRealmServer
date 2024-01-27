@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Configuration.Configurations;
 
-public class ServerConfig : IServerConfig
+public struct ServerConfig : IServerConfig
 {
     [JsonProperty("host")] public string Host { get; }
     [JsonProperty("port")] public ushort Port { get; }
