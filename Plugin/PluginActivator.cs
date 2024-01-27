@@ -1,7 +1,5 @@
 using System.Reflection;
-using CubeRealm.Config;
 using CubeRealmServer.API;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PluginAPI;
