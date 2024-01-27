@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Pzp8jONO2IwKUqmWvlLW3D68n14S5DTsrbPdjcwLE+KoWiFjP2/umMM/aAJpL7wgicZkf3CPB52hImxrIB406g==",
+  "dgSpecHash": "6GE9CFW09L0/M99/OmgMCgyT5KMLVDaiXUov4/I+O6vsb5XrHLadv6lAc/Fr0MiU+IZwrwQqx6mh13zJauvVWQ==",
   "success": true,
-  "projectFilePath": "/home/kot_200_80/Sources/C#/CubeRealmServer/PluginAPI/PluginAPI.csproj",
+  "projectFilePath": "/home/systemdev/RiderProjects/CubeRealmServer/PluginAPI/PluginAPI.csproj",
   "expectedPackageFiles": [
-    "/home/kot_200_80/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
-    "/home/kot_200_80/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+    "/home/systemdev/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "/home/systemdev/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }
