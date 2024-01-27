@@ -9,6 +9,11 @@ namespace CubeRealmServer;
 
 class Program
 {
+    public static void Main(string[] args)
+    {
+        Main(args.ToList());
+    }
+
     public static void Main(List<string> args)
     {
         int debugIndex = args.IndexOf("--debug");
