@@ -7,12 +7,12 @@ public class Ping : Packet<Ping>, IToClient
     
     public int Id { get; set; }
     
-    public override void Read(MinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         Id = stream.ReadInt();
     }
 
-    public override void Write(MinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteInt(Id);
     }

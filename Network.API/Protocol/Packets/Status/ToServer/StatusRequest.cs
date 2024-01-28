@@ -7,11 +7,11 @@ public class StatusRequest : Packet<StatusRequest>, IToServer
 
     public byte ServerId => 0x00;
     
-    public override void Read(MinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
     }
 
-    public override void Write(MinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         
     }
