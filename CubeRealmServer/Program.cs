@@ -53,7 +53,9 @@ class Program
             .AddLogging()
             .AddSingleton<IPluginActivator, PluginActivator>()
             .AddSingleton<IMinecraftServer, MinecraftServer>()
-            .AddSingleton<INetServer, NetServer>();
+            .AddSingleton<INetServer, NetServer>()
+            .AddTransient<NetConnectionFactory>()
+            .AddTransient<IPacketFactory, PacketFactory>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();

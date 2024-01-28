@@ -3,37 +3,62 @@ using System.Net.Sockets;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Network.Connection;
 using NetworkAPI;
 
 namespace Network;
 
 public class NetServer : INetServer
 {
-
-    private ILogger<NetServer> Logger;
+    private ILogger<NetServer> Logger { get; }
     private CancellationTokenSource CancellationToken { get; set; }
-    private Socket Socket { get; set; }
+    private Socket ServerSocket { get; }
     private IOptions<ServerSettings> Options { get; }
+    private NetConnectionFactory ConnectionFactory { get; }
+    private List<NetConnection> Connections { get; }
 
-    public NetServer(ILogger<NetServer> logger, IOptions<ServerSettings> options)
+    public NetServer(ILogger<NetServer> logger, IOptions<ServerSettings> options, NetConnectionFactory connectionFactory)
     {
         Logger = logger;
         CancellationToken = new CancellationTokenSource();
         Options = options;
+        ConnectionFactory = connectionFactory;
 
-        Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
     }
     
     public void Start()
     {
         IPEndPoint end = new IPEndPoint(IPAddress.Parse(Options.Value.NetServer.Address), Options.Value.NetServer.Port);
         
-        Socket.Bind(end);
-        Socket.Listen(10);
+        ServerSocket.Bind(end);
+        ServerSocket.Listen(10);
+
+        ServerSocket.BeginAccept(IncomingConnection, null);
     }
 
     public void Stop()
     {
+        ServerSocket.Dispose();
+    }
+
+    private void IncomingConnection(IAsyncResult ar)
+    {
+        Socket? client = null;
+        try
+        {
+            client = ServerSocket.EndAccept(ar);
+        }
+        catch
+        {
+            Logger.LogWarning("Error while connection accept");
+        }
+
+        ServerSocket.BeginAccept(IncomingConnection, null);
+        if (client == null)
+            return;
+
+        NetConnection connection = ConnectionFactory.Create(client);
         
     }
 }

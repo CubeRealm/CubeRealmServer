@@ -111,25 +111,31 @@ public class MinecraftStream : Stream, IMinecraftStream
     {
         return BaseStream.ReadByte();
     }
+    
+    public int ReadVarInt(out int bytesRead)
+    {
+        var numRead = 0;
+        var result = 0;
+        byte read;
+        do
+        {
+            read = (byte)ReadByte();
+            var value = read & 0x7f;
+            result |= value << (7 * numRead);
+            numRead++;
+            if (numRead > 5)
+            {
+                throw new Exception("VarInt is too big");
+            }
+        } while ((read & 0x80) != 0);
+        
+        bytesRead = numRead;
+        return result;
+    }
 
     public int ReadVarInt()
     {
-        int value = 0;
-        int position = 0;
-        byte currentByte;
-
-        while (true)
-        {
-            currentByte = (byte) ReadByte();
-            value |= (currentByte & SEGMENT_BITS) << position;
-
-            if ((currentByte & CONTINUE_BIT) == 0) break;
-            position += 7;
-
-            if (position >= 32) throw new PacketReadException("VarInt is too big");
-        }
-
-        return value;
+        return ReadVarInt(out _);
     }
     
     public long ReadVarLong()
