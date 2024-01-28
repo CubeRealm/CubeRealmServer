@@ -7,8 +7,8 @@ public abstract class Packet
 
     public int PacketId { get; set; } = -1;
 
-    public abstract void Decode(MinecraftStream stream);
-    public abstract void Encode(MinecraftStream stream);
+    public abstract void Read(MinecraftStream stream);
+    public abstract void Write(MinecraftStream stream);
 
 }
 
