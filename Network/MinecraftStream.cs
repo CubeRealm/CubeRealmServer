@@ -1,8 +1,9 @@
 using System.Net;
 using System.Text;
+using NetworkAPI.Protocol.Util;
 using NetworkAPI.Protocol.Util.Exceptions;
 
-namespace NetworkAPI.Protocol.Util;
+namespace Network;
 
 public class MinecraftStream : Stream, IMinecraftStream
 {

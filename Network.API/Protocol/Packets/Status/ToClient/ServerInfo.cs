@@ -9,12 +9,12 @@ public class ServerInfo : Packet<ServerInfo>, IToClient
     public string Response { get; set; }
 
     
-    public override void Read(MinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         Response = stream.ReadString();
     }
 
-    public override void Write(MinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteString(Response);
     }

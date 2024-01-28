@@ -11,7 +11,7 @@ public class Handshake : Packet<Handshake>, IToServer
     public ushort Port { get; set; }
     public int NextState { get; set; }
     
-    public override void Read(MinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         Version = stream.ReadVarInt();
         Address = stream.ReadString();
@@ -20,7 +20,7 @@ public class Handshake : Packet<Handshake>, IToServer
     }
     
 
-    public override void Write(MinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteVarInt(Version);
         stream.WriteString(Address);
