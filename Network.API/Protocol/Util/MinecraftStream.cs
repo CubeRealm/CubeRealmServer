@@ -4,7 +4,7 @@ using NetworkAPI.Protocol.Util.Exceptions;
 
 namespace NetworkAPI.Protocol.Util;
 
-public class MinecraftStream : Stream
+public class MinecraftStream : Stream, IMinecraftStream
 {
     
     public Stream BaseStream { get; private set; }
@@ -106,7 +106,7 @@ public class MinecraftStream : Stream
         return buffer;
     }
 
-    public int ReadByte()
+    public override int ReadByte()
     {
         return BaseStream.ReadByte();
     }
@@ -173,6 +173,12 @@ public class MinecraftStream : Stream
         return IPAddress.NetworkToHostOrder(value);
     }
     
+    public short ReadShort()
+    {
+        byte[] data = Read(2);
+        short result = BitConverter.ToInt16(data, 0);
+        return IPAddress.NetworkToHostOrder(result);
+    }
     public ushort ReadUShort()
     {
         byte[] data = Read(2);
