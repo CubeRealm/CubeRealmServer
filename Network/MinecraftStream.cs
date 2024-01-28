@@ -194,18 +194,28 @@ public class MinecraftStream : Stream, IMinecraftStream
 
     public float ReadFloat()
     {
-        var almost = Read(4);
-        var f = BitConverter.ToSingle(almost, 0);
-        return NetworkToHostOrder(f);
+        byte[] almost = Read(4);
+        float data = BitConverter.ToSingle(almost, 0);
+        return NetworkToHostOrder(data);
     }
     
     public Guid ReadUuid()
     {
-        var long1 = Read(8);
-        var long2 = Read(8);
+        byte[] long1 = Read(8);
+        byte[] long2 = Read(8);
         return new Guid(long1.Concat(long2).ToArray());
     }
-
+    
+    public byte[] ReadByteArray()
+    {
+        int length = ReadVarInt();
+        byte[] result = new byte[length];
+        for (int i = 0; i < length; i++)
+        {
+            result[i] = (byte) ReadByte();
+        }
+        return result;
+    }
 
     #endregion
 
@@ -293,13 +303,25 @@ public class MinecraftStream : Stream, IMinecraftStream
     
     public void WriteUuid(Guid uuid)
     {
-        var guid = uuid.ToByteArray();
-        var long1 = new byte[8];
-        var long2 = new byte[8];
+        byte[] guid = uuid.ToByteArray();
+        byte[] long1 = new byte[8];
+        byte[] long2 = new byte[8];
         Array.Copy(guid, 0, long1, 0, 8);
         Array.Copy(guid, 8, long2, 0, 8);
         Write(long1);
         Write(long2);
+    }
+    
+    public void WriteByteArray(byte[] values)
+    {
+        if (values == null)
+        {
+            WriteVarInt(0);
+            return;
+        }
+        WriteVarInt(values.Length);
+        foreach (byte value in values)
+            WriteByte(value);
     }
     
     #endregion
@@ -310,7 +332,7 @@ public class MinecraftStream : Stream, IMinecraftStream
 
     private ushort NetworkToHostOrder(ushort network)
     {
-        var net = BitConverter.GetBytes(network);
+        byte[] net = BitConverter.GetBytes(network);
         if (BitConverter.IsLittleEndian)
             Array.Reverse(net);
         return BitConverter.ToUInt16(net, 0);
@@ -318,7 +340,7 @@ public class MinecraftStream : Stream, IMinecraftStream
     
     private float NetworkToHostOrder(float network)
     {
-        var bytes = BitConverter.GetBytes(network);
+        byte[] bytes = BitConverter.GetBytes(network);
 
         if (BitConverter.IsLittleEndian)
             Array.Reverse(bytes);
@@ -337,7 +359,7 @@ public class MinecraftStream : Stream, IMinecraftStream
     
     private byte[] HostToNetworkOrder(double d)
     {
-        var data = BitConverter.GetBytes(d);
+        byte[] data = BitConverter.GetBytes(d);
         if (BitConverter.IsLittleEndian)
             Array.Reverse(data);
         return data;

@@ -13,4 +13,5 @@ public interface IMinecraftReader
     double ReadDouble();
     float ReadFloat();
     Guid ReadUuid();
+    byte[] ReadByteArray();
 }

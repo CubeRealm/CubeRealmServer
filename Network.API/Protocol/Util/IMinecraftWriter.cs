@@ -13,5 +13,6 @@ public interface IMinecraftWriter
     void WriteDouble(double value);
     void WriteFloat(float data);
     void WriteUuid(Guid uuid);
+    void WriteByteArray(byte[] values);
 
 }
