@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using NetworkAPI.Protocol.Util.Exceptions;
 
@@ -158,6 +159,20 @@ public class MinecraftStream : Stream
         return Encoding.UTF8.GetString(value);
     }
 
+    public bool ReadBool()
+    {
+        int value = ReadByte();
+        return value == 1;
+    }
+
+    public int ReadInt()
+    {
+        byte[] data = Read(4);
+        int value = BitConverter.ToInt32(data, 0);
+
+        return IPAddress.NetworkToHostOrder(value);
+    }
+
     #endregion
 
     
@@ -215,6 +230,17 @@ public class MinecraftStream : Stream
         Write(data);
     }
 
+    public void WriteBool(bool value)
+    {
+        Write(BitConverter.GetBytes(value));
+    }
+
+    public void WriteInt(int value)
+    {
+        var buffer = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(value));
+        Write(buffer);
+    }
+    
     #endregion
 
     
