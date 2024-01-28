@@ -61,7 +61,7 @@ public class PluginActivator : IPluginActivator
             }
             catch (Exception e)
             {
-                Logger.LogError("Plugin activate exception: {}", e);       
+                Logger.LogError("Plugin {} activate exception: {}", pluginType.Name, e);       
             }
         }
     }

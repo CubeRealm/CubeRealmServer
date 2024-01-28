@@ -3,31 +3,45 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Network;
+using NetworkAPI;
 using Plugin;
 using PluginAPI;
 
 namespace CubeRealmServer;
 
-public class MinecraftServer : IHostedService, IMinecraftServer
+public class MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider serviceProvider)
+    : IHostedService, IMinecraftServer
 {
-    private IServiceProvider ServiceProvider { get; }
+    private ILogger<MinecraftServer> Logger => logger;
+    private IServiceProvider ServiceProvider => serviceProvider;
+    public INetServer Network { get; private set; }
+    public IPluginActivator PluginActivator { get; private set; }
 
-    private NetServer NetworkServer { get; }
+    public async Task StartAsync(CancellationToken cancellationToken)
+    { 
+        Logger.LogInformation("Activating plugins");
+        PluginActivator? pluginActivator = null;
+        await Task.Run(() =>
+        {
+            PluginActivator = pluginActivator = ServiceProvider.GetOriginalService<IPluginActivator, PluginActivator>();
+            pluginActivator.Activate();
+            Logger.LogInformation("Activated");
+        }, cancellationToken);
 
-    public MinecraftServer(IServiceProvider serviceProvider)
-    {
-        ServiceProvider = serviceProvider;
+        Logger.LogInformation("Starting NetServer");
+        await Task.Run(() =>
+        {
+            NetServer netServer;
+            Network = netServer = ServiceProvider.GetOriginalService<INetServer, NetServer>();
+            netServer.Start();
+            Logger.LogInformation("Started NetServer");
+        }, cancellationToken);
 
-        NetworkServer = new NetServer(new Logger<NetServer>(new LoggerFactory()));
-    }
-
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        IPluginActivator pluginActivator = ServiceProvider.GetRequiredService<IPluginActivator>();
-        ((PluginActivator) pluginActivator).Activate();
+        Task.WaitAll();
         
-        NetworkServer.Start();
-        return Task.CompletedTask;
+        Logger.LogInformation("Enabling plugins");
+        pluginActivator!.Enable();
+        Logger.LogInformation("Enabled plugins");
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

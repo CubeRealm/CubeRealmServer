@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
-using CubeRealm.Config;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Network;
+using NetworkAPI;
 using Plugin;
 using PluginAPI;
 
@@ -51,7 +52,8 @@ class Program
         services
             .AddLogging()
             .AddSingleton<IPluginActivator, PluginActivator>()
-            .AddSingleton<IMinecraftServer, MinecraftServer>();
+            .AddSingleton<IMinecraftServer, MinecraftServer>()
+            .AddSingleton<INetServer, NetServer>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();
@@ -59,6 +61,6 @@ class Program
         foreach (var type in pluginTypes)
             services.AddSingleton(type);
         
-        services .AddHostedService<MinecraftServer>();
+        services.AddHostedService<MinecraftServer>();
     }
 }
