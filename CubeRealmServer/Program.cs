@@ -45,13 +45,20 @@ class Program
 
     private static void Configure(HostBuilderContext ctx, IServiceCollection services)
     {
-        var section = ctx.Configuration.GetSection("Server");
+        IConfigurationSection section = ctx.Configuration.GetSection("Server");
         services.AddOptions<ServerSettings>().Bind(section);
-        
-        services.AddLogging()
-            //Plugins
+
+        services
+            .AddLogging()
             .AddSingleton<IPluginActivator, PluginActivator>()
-            .AddSingleton<IMinecraftServer, MinecraftServer>()
-            .AddHostedService<MinecraftServer>();
+            .AddSingleton<IMinecraftServer, MinecraftServer>();
+
+        string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
+        List<Type> pluginTypes = new List<Type>();
+        PluginActivator.AddFromDirectory(ref pluginTypes, pluginsPath);
+        foreach (var type in pluginTypes)
+            services.AddSingleton(type);
+        
+        services .AddHostedService<MinecraftServer>();
     }
 }

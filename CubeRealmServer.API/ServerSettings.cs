@@ -7,5 +7,5 @@ public class ServerSettings
 {
     
     public PluginsSettings Plugins { get; set; }
-    public NetworkSettings Network { get; set; }
+    public NetworkSettings NetServer { get; set; }
 }

@@ -22,27 +22,29 @@ public class PluginActivator : IPluginActivator
 
         if (!Directory.Exists(config.Value.Plugins.Directory))
             Directory.CreateDirectory(config.Value.Plugins.Directory);
-        
-        AddFromDirectory(Path.Combine(hostEnv.ContentRoot, config.Value.Plugins.Directory));
+
+
+        List<Type> pluginsTypes = PluginsTypes;
+        AddFromDirectory(ref pluginsTypes, Path.Combine(hostEnv.ContentRoot, config.Value.Plugins.Directory));
+        PluginsTypes = pluginsTypes;
     }
     
-    private void AddFromDirectory(string directory)
+    public static void AddFromDirectory(ref List<Type> list, string directory)
     {
         foreach (string file in Directory.GetFiles(directory, "*.dll"))
-            AddFromFile(file);
+            if (AddFromFile(file, out Type type))
+                list.Add(type);
     }
     
-    private void AddFromFile(string fileName)
+    public static bool AddFromFile(string fileName, out Type type)
     {
         Assembly asm = Assembly.LoadFrom(fileName);
-        
+
+        type = null!;
         foreach (Type unknownType in asm.GetExportedTypes())
-        {
             if (unknownType.IsAssignableTo(typeof(IPlugin)))
-            {
-                PluginsTypes.Add(unknownType);
-            }
-        }
+                type = unknownType;
+        return type != null!;
     }
     
     public void Activate()
