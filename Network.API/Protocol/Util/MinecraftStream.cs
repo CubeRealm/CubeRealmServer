@@ -172,6 +172,18 @@ public class MinecraftStream : Stream
 
         return IPAddress.NetworkToHostOrder(value);
     }
+    
+    public ushort ReadUShort()
+    {
+        byte[] data = Read(2);
+        return NetworkToHostOrder(BitConverter.ToUInt16(data, 0));
+    }
+    
+    public double ReadDouble()
+    {
+        byte[] value = Read(8);
+        return NetworkToHostOrder(value);
+    }
 
     #endregion
 
@@ -237,11 +249,51 @@ public class MinecraftStream : Stream
 
     public void WriteInt(int value)
     {
-        var buffer = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(value));
+        byte[] buffer = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(value));
         Write(buffer);
+    }
+    
+    public void WriteUShort(ushort value)
+    {
+        byte[] uShortData = BitConverter.GetBytes(value);
+        Write(uShortData);
+    }
+    
+    public void WriteDouble(double value)
+    {
+        Write(HostToNetworkOrder(value));
     }
     
     #endregion
 
+
+    #region Util
+
+    private ushort NetworkToHostOrder(ushort network)
+    {
+        var net = BitConverter.GetBytes(network);
+        if (BitConverter.IsLittleEndian)
+            Array.Reverse(net);
+        return BitConverter.ToUInt16(net, 0);
+    }
+    
+    private double NetworkToHostOrder(byte[] data)
+    {
+        if (BitConverter.IsLittleEndian)
+        {
+            Array.Reverse(data);
+        }
+        return BitConverter.ToDouble(data, 0);
+    }
+    
+    private byte[] HostToNetworkOrder(double d)
+    {
+        var data = BitConverter.GetBytes(d);
+        if (BitConverter.IsLittleEndian)
+            Array.Reverse(data);
+        return data;
+    }
+
+    #endregion
     
 }

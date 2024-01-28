@@ -1,6 +1,6 @@
 using NetworkAPI.Protocol.Util;
 
-namespace NetworkAPI.Protocol.Status.ToClient;
+namespace NetworkAPI.Protocol.Packets.Status.ToClient;
 
 public class ServerInfo : Packet<ServerInfo>, IToClient
 {
