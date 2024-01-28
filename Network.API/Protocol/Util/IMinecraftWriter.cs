@@ -11,5 +11,7 @@ public interface IMinecraftWriter
     void WriteInt(int value);
     void WriteUShort(ushort value);
     void WriteDouble(double value);
+    void WriteFloat(float data);
+    void WriteUuid(Guid uuid);
 
 }

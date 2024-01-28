@@ -11,5 +11,6 @@ public interface IMinecraftReader
     short ReadShort();
     ushort ReadUShort();
     double ReadDouble();
-
+    float ReadFloat();
+    Guid ReadUuid();
 }
