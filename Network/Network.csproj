@@ -29,4 +29,8 @@
       <Folder Include="bin\Debug\net8.0\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Network.API\Network.API.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 using CubeRealmServer.API;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Network;
 using Plugin;
 using PluginAPI;
@@ -16,14 +17,16 @@ public class MinecraftServer : IHostedService, IMinecraftServer
     public MinecraftServer(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
-        
-        NetworkServer = new NetServer();
+
+        NetworkServer = new NetServer(new Logger<NetServer>(new LoggerFactory()));
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         IPluginActivator pluginActivator = ServiceProvider.GetRequiredService<IPluginActivator>();
         ((PluginActivator) pluginActivator).Activate();
+        
+        NetworkServer.Start();
         return Task.CompletedTask;
     }
 
