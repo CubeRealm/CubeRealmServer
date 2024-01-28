@@ -28,7 +28,6 @@
 
     <ItemGroup>
       <Folder Include="bin\Debug\net8.0\" />
-      <Folder Include="Protocol\Status\" />
     </ItemGroup>
 
 </Project>

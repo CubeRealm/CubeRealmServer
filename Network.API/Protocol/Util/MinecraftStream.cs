@@ -1,3 +1,4 @@
+using System.Text;
 using NetworkAPI.Protocol.Util.Exceptions;
 
 namespace NetworkAPI.Protocol.Util;
@@ -10,6 +11,8 @@ public class MinecraftStream : Stream
     
     private const int SEGMENT_BITS = 0x7F;
     private const int CONTINUE_BIT = 0x80;
+
+    private CancellationTokenSource CancelationToken => new CancellationTokenSource();
 
     public MinecraftStream(Stream baseStream)
     {
@@ -72,6 +75,35 @@ public class MinecraftStream : Stream
     #region Reader
 
 
+    public byte[] Read(int length)
+    {
+        var s = new SpinWait();
+        var read = 0;
+
+        var buffer = new byte[length];
+        while (read < buffer.Length && !CancelationToken.IsCancellationRequested &&
+               s.Count < 25) 
+        {
+            var oldRead = read;
+
+            var r = Read(buffer, read, length - read);
+            if (r < 0)
+            {
+                break;
+            }
+
+            read += r;
+
+            if (read == oldRead)
+            {
+                s.SpinOnce();
+            }
+            if (CancelationToken.IsCancellationRequested) 
+                throw new ObjectDisposedException("");
+        }
+
+        return buffer;
+    }
 
     public int ReadByte()
     {
@@ -116,7 +148,15 @@ public class MinecraftStream : Stream
         }
 
         return value;
-    }    
+    }
+
+    public string ReadString()
+    {
+        int length = ReadVarInt();
+        byte[] value = Read(length);
+
+        return Encoding.UTF8.GetString(value);
+    }
 
     #endregion
 
@@ -124,6 +164,11 @@ public class MinecraftStream : Stream
     
     #region Writer
 
+    public void Write(byte[] data)
+    {
+        Write(data, 0, data.Length);
+    }
+    
     public void WriteByte(byte value)
     {
         BaseStream.WriteByte(value);
@@ -159,6 +204,15 @@ public class MinecraftStream : Stream
 
             value >>>= 7;
         }
+    }
+
+    public void WriteString(string value)
+    {
+        string text = value ?? string.Empty;
+        byte[] data = Encoding.UTF8.GetBytes(text);
+        
+        WriteVarInt(data.Length);
+        Write(data);
     }
 
     #endregion
