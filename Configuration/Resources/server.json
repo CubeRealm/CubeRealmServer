@@ -1,8 +1,0 @@
-{
-  "host": "0.0.0.0",
-  "port": 25565,
-  "max_players": 50,
-  "hide_online_players": false,
-  "motd": "CubeRealm powered server",
-  "whitelist": true
-}
