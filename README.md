@@ -1,5 +1,5 @@
 # What is a CubeRealm Server?
-[![Paper Build Status](https://img.shields.io/github/actions/workflow/status/Flavelm/CubeRealmServer/build.yml?branch=master)](https://github.com/Flavelm/CubeRealmServer/actions)
+[![CubeRealm Build Status](https://img.shields.io/github/actions/workflow/status/Flavelm/CubeRealmServer/build.yml?branch=master)](https://github.com/Flavelm/CubeRealmServer/actions)
 [![Discord](https://img.shields.io/discord/1201546286688653372.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/JatDqzG8Db)
 ===========
 It's a new multithreaded minecraft server core. Our core supports versions 1.19.2 and newer. The core is written in C#. Easy API allows allows you to create your own plugins and modules. To build core, plugins or modules you will need .NET 8.0 installed.
