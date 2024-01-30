@@ -2,6 +2,7 @@ namespace World.API.Coords;
 
 public class ChunkLocation
 {
+    
     public ChunkLocation(double x, double z)
     {
         this.x = x;
