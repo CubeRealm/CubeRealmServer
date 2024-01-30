@@ -17,5 +17,5 @@ public class Ping : Packet<Ping>, IToClient
         stream.WriteInt(Id);
     }
 
-    public byte ClientId => 0x30;
+    public byte ClientId => 0x04;
 }

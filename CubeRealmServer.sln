@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRealmServer.API", "Cube
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin", "Plugin\Plugin.csproj", "{6D3F572E-9D78-41F2-B822-61F58928CA0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World", "World\World.csproj", "{17152B47-9AF8-4D4D-A29F-E84301549A44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World.API", "World.API\World.API.csproj", "{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,13 @@ Global
 		{6D3F572E-9D78-41F2-B822-61F58928CA0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D3F572E-9D78-41F2-B822-61F58928CA0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D3F572E-9D78-41F2-B822-61F58928CA0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17152B47-9AF8-4D4D-A29F-E84301549A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17152B47-9AF8-4D4D-A29F-E84301549A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17152B47-9AF8-4D4D-A29F-E84301549A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17152B47-9AF8-4D4D-A29F-E84301549A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
