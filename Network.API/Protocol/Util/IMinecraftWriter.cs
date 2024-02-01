@@ -2,7 +2,7 @@ namespace NetworkAPI.Protocol.Util;
 
 public interface IMinecraftWriter
 {
-
+    
     void Write(byte[] data);
     void WriteByte(byte value);
     void WriteVarInt(int value);
@@ -15,5 +15,6 @@ public interface IMinecraftWriter
     void WriteFloat(float data);
     void WriteUuid(Guid uuid);
     void WriteByteArray(byte[] values);
+    void WriteBuffer(byte[] data);
 
 }

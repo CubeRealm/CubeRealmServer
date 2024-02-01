@@ -222,6 +222,15 @@ public class MinecraftStream : Stream, IMinecraftStream
         }
         return result;
     }
+    
+    public byte[] ReadBuffer()
+    {
+        var length = ReadVarInt(out _);
+        var array = new byte[length + 1];
+        array[0] = (byte)length;
+        _ = Read(array, 1, length);
+        return array;
+    }
 
     #endregion
 
@@ -328,6 +337,11 @@ public class MinecraftStream : Stream, IMinecraftStream
         WriteVarInt(values.Length);
         foreach (byte value in values)
             WriteByte(value);
+    }
+    
+    public void WriteBuffer(byte[] data)
+    {
+        Write(data);
     }
     
     #endregion

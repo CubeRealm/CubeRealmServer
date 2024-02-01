@@ -2,7 +2,7 @@ namespace NetworkAPI.Protocol.Util;
 
 public interface IMinecraftReader
 {
-
+    
     byte[] Read(int length);
     int ReadVarInt();
     long ReadVarLong();
@@ -15,4 +15,5 @@ public interface IMinecraftReader
     float ReadFloat();
     Guid ReadUuid();
     byte[] ReadByteArray();
+    byte[] ReadBuffer();
 }
