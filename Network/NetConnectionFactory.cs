@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using CubeRealm.Network.Packets;
 using Microsoft.Extensions.Logging;
 using Network.Connection;
 using NetworkAPI;
@@ -9,6 +10,6 @@ public class NetConnectionFactory(ILoggerFactory loggerFactory, IPacketFactory p
 {
     internal NetConnection Create(Socket socket)
     {
-        return new MinecraftNetConnection(loggerFactory.CreateLogger<NetConnection>(), (PacketFactory)packetFactory, socket);
+        return new MinecraftConnection(loggerFactory.CreateLogger<NetConnection>(), (PacketFactory)packetFactory, socket);
     }
 }

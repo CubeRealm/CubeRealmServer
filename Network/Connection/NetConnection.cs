@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using CubeRealm.Network.Packets;
 using Ionic.Zlib;
 using Microsoft.Extensions.Logging;
 using NetworkAPI;
@@ -104,7 +105,7 @@ public abstract class NetConnection : INetConnection
                                 }
                             }
                         }
-                        packet = PacketFactory.Get(ConnectionState, packetId);
+                        packet = PacketFactory.GetToServer(packetId, );
                         if (packet == null)
                         {
                             Logger.LogWarning($"Unhandled package! 0x{packetId:x2}");

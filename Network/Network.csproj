@@ -31,6 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CubeRealm.Network.Packets\CubeRealm.Network.Packets.csproj" />
       <ProjectReference Include="..\CubeRealmServer.API\CubeRealmServer.API.csproj" />
       <ProjectReference Include="..\Network.API\Network.API.csproj" />
     </ItemGroup>
