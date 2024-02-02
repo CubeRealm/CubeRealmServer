@@ -5,8 +5,8 @@ public interface IMinecraftWriter
     
     void Write(byte[] data);
     void WriteByte(byte value);
-    void WriteVarInt(int value);
-    void WriteVarLong(long value);
+    int WriteVarInt(int value);
+    int WriteVarLong(long value);
     void WriteString(string value);
     void WriteBool(bool value);
     void WriteInt(int value);

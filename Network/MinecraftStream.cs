@@ -114,13 +114,13 @@ public class MinecraftStream : Stream, IMinecraftStream
     
     public int ReadVarInt(out int bytesRead)
     {
-        var numRead = 0;
-        var result = 0;
+        int numRead = 0;
+        int result = 0;
         byte read;
         do
         {
             read = (byte)ReadByte();
-            var value = read & 0x7f;
+            int value = read & 0x7f;
             result |= value << (7 * numRead);
             numRead++;
             if (numRead > 5)
@@ -128,7 +128,6 @@ public class MinecraftStream : Stream, IMinecraftStream
                 throw new Exception("VarInt is too big");
             }
         } while ((read & 0x80) != 0);
-        
         bytesRead = numRead;
         return result;
     }
@@ -140,22 +139,22 @@ public class MinecraftStream : Stream, IMinecraftStream
     
     public long ReadVarLong()
     {
-        long value = 0;
-        int position = 0;
-        byte currentByte;
-
-        while (true)
+        int numRead = 0;
+        long result = 0;
+        byte read;
+        do
         {
-            currentByte = (byte) ReadByte();
-            value |= (long) (currentByte & SEGMENT_BITS) << position;
+            read = (byte)ReadByte();
+            int value = read & 0x7f;
+            result |= (uint) (value << (7 * numRead));
+            numRead++;
+            if (numRead > 10)
+            {
+                throw new Exception("VarLong is too big");
+            }
+        } while ((read & 0x80) != 0);
 
-            if ((currentByte & CONTINUE_BIT) == 0) break;
-            position += 7;
-
-            if (position >= 64) throw new PacketReadException("VarInt is too big");
-        }
-
-        return value;
+        return result;
     }
 
     public string ReadString()
@@ -248,36 +247,38 @@ public class MinecraftStream : Stream, IMinecraftStream
         BaseStream.WriteByte(value);
     }
 
-    public void WriteVarInt(int value)
+    public int WriteVarInt(int value)
     {
-        while (true)
+        var write = 0;
+        do
         {
-            if ((value & ~SEGMENT_BITS) == 0)
+            var temp = (byte)(value & 127);
+            value >>= 7;
+            if (value != 0)
             {
-                WriteByte((byte) value);
-                return;
+                temp |= 128;
             }
-            
-            WriteByte((byte) ((value & SEGMENT_BITS) | CONTINUE_BIT));
-
-            value >>>= 7;
-        }
+            WriteByte(temp);
+            write++;
+        } while (value != 0);
+        return write;
     }
     
-    public void WriteVarLong(long value)
+    public int WriteVarLong(long value)
     {
-        while (true)
+        int write = 0;
+        do
         {
-            if ((value & ~((long) SEGMENT_BITS)) == 0)
+            byte temp = (byte)(value & 127);
+            value >>= 7;
+            if (value != 0)
             {
-                WriteByte((byte) value);
-                return;
+                temp |= 128;
             }
-            
-            WriteByte((byte) ((value & SEGMENT_BITS) | CONTINUE_BIT));
-
-            value >>>= 7;
-        }
+            WriteByte(temp);
+            write++;
+        } while (value != 0);
+        return write;
     }
 
     public void WriteString(string value)
