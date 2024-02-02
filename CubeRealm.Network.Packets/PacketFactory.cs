@@ -19,12 +19,12 @@ public class PacketFactory : IPacketFactory
         });
     }
     
-    public T GetToClient<T>(int packetId, int version) where T : Packet, IToClient, new()
+    public Packet GetToClient<T>(int packetId, int version) where T : Packet
     {
         return (T)PacketsToClient[version][packetId]();
     }
     
-    public T GetToServer<T>(int packetId, int version) where T : Packet, IToServer, new()
+    public Packet GetToServer<T>(int packetId, int version) where T : Packet
     {
         return (T)PacketsToServer[version][packetId]();
     }

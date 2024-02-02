@@ -13,6 +13,7 @@ public abstract class NetConnection : INetConnection
     
     private protected abstract bool CompressionEnabled { get; }
     private protected abstract bool ConnectionState { get; }
+    private protected abstract int Version { get; }
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
@@ -105,7 +106,7 @@ public abstract class NetConnection : INetConnection
                                 }
                             }
                         }
-                        packet = PacketFactory.GetToServer(packetId, );
+                        packet = PacketFactory.GetToServer<Packet>(packetId, Version);
                         if (packet == null)
                         {
                             Logger.LogWarning($"Unhandled package! 0x{packetId:x2}");
@@ -133,7 +134,9 @@ public abstract class NetConnection : INetConnection
             UnsafeDisconnect();
         }
     }
-    
+
+    private protected abstract void HandlePacket(Packet packet);
+
     public static void DecompressData(byte[] inData, out byte[] outData)
     {
         using (var outMemoryStream = new MemoryStream())
