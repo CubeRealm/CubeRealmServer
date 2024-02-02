@@ -106,7 +106,7 @@ public abstract class NetConnection : INetConnection
                                 }
                             }
                         }
-                        packet = PacketFactory.GetToServer<Packet>(packetId, Version);
+                        packet = PacketFactory.GetToServer<Packet>(minecraftStream, packetId, Version);
                         if (packet == null)
                         {
                             Logger.LogWarning($"Unhandled package! 0x{packetId:x2}");

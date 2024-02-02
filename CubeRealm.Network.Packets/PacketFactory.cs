@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using NetworkAPI;
 using NetworkAPI.Protocol;
 using NetworkAPI.Protocol.Packets.Handshaking.ToServer;
+using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets;
 
@@ -19,12 +20,12 @@ public class PacketFactory : IPacketFactory
         });
     }
     
-    public Packet GetToClient<T>(int packetId, int version) where T : Packet
+    public Packet GetToClient<T>(IMinecraftReader stream, int packetId, int version) where T : Packet
     {
         return (T)PacketsToClient[version][packetId]();
     }
     
-    public Packet GetToServer<T>(int packetId, int version) where T : Packet
+    public Packet GetToServer<T>(IMinecraftWriter stream, int packetId, int version) where T : Packet
     {
         return (T)PacketsToServer[version][packetId]();
     }
