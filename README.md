@@ -7,7 +7,7 @@ It's a new multithreaded minecraft server core. Our core supports versions 1.19.
 ## Support us
 
 ## Get help
-You always can help in our [Discord Server](https://discord.com/) or in [Telegram Chat](https://t.me/)
+You always can help in our [Discord Server](https://discord.gg/JatDqzG8D) or in [Telegram Chat](https://t.me/+BXy8XwWdumJkOWQy)
 
 ## Your first server
 If you want to try our core and create minecraft server with it, follow the instructions.
