@@ -2,4 +2,8 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/kot_200_80/.nuget/packages/microsoft.extensions.options.configurationextensions/8.0.0/lib/net8.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll" /&gt;
   &lt;Assembly Path="/home/kot_200_80/.nuget/packages/microsoft.extensions.options/8.0.0/lib/net8.0/Microsoft.Extensions.Options.dll" /&gt;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/home/nikolay/dotnet-sdk-8.0.101-linux-x64/sdk/8.0.101/MSBuild.dll</s:String>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">/home/nikolay/dotnet-sdk-8.0.101-linux-x64/dotnet</s:String>
+	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">1114112</s:Int64>
+	<s:Boolean x:Key="/Default/Environment/Hierarchy/Build/BuildTool/RecentDotNetCliExePaths/=_002Fhome_002Fnikolay_002Fdotnet_002Dsdk_002D8_002E0_002E101_002Dlinux_002Dx64_002Fdotnet/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
