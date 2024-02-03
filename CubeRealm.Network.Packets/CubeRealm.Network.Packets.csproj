@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Network.API\Network.API.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Packets\Configuration\ToServer\" />
+    </ItemGroup>
+
 </Project>
