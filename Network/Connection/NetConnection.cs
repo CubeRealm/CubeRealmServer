@@ -12,7 +12,7 @@ public abstract class NetConnection : INetConnection
     public bool IsConnected { get; private set; }
     
     private protected abstract bool CompressionEnabled { get; }
-    private protected abstract bool ConnectionState { get; }
+    private protected abstract ConnectionState ConnectionState { get; }
     private protected abstract int Version { get; }
     
     private ILogger<NetConnection> Logger { get; }
@@ -106,7 +106,7 @@ public abstract class NetConnection : INetConnection
                                 }
                             }
                         }
-                        packet = PacketFactory.GetToServer<Packet>(minecraftStream, packetId, Version);
+                        packet = PacketFactory.GetToServer<Packet>(ConnectionState, packetId, Version);
                         if (packet == null)
                         {
                             Logger.LogWarning($"Unhandled package! 0x{packetId:x2}");

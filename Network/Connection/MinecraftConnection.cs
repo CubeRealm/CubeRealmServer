@@ -8,7 +8,7 @@ namespace Network.Connection;
 public class MinecraftConnection : NetConnection
 {
     private protected override bool CompressionEnabled { get; }
-    private protected override bool ConnectionState { get; }
+    private protected override ConnectionState ConnectionState { get; }
     private protected override int Version { get; }
 
     public MinecraftConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, Socket socket) :
@@ -19,6 +19,6 @@ public class MinecraftConnection : NetConnection
 
     private protected override void HandlePacket(Packet packet)
     {
-        throw new NotImplementedException();
+        
     }
 }

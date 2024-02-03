@@ -1,32 +1,28 @@
-using System.Collections.ObjectModel;
+using Network;
 using NetworkAPI;
 using NetworkAPI.Protocol;
-using NetworkAPI.Protocol.Packets.Handshaking.ToServer;
-using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets;
 
 public class PacketFactory : IPacketFactory
 {
     //<version, <packedId, Packet>>
-    private static IDictionary<int, IDictionary<int, Func<Packet>>> PacketsToServer { get; } = new Dictionary<int, IDictionary<int, Func<Packet>>>();
-    private static IDictionary<int, IDictionary<int, Func<Packet>>> PacketsToClient { get; } = new Dictionary<int, IDictionary<int, Func<Packet>>>();
+    private IDictionary<int, PacketsDictionary> PacketsToServer { get; } = new Dictionary<int, PacketsDictionary>();
+    private IDictionary<int, PacketsDictionary> PacketsToClient { get; } = new Dictionary<int, PacketsDictionary>();
     
-    static PacketFactory()
+    public PacketFactory()
     {
-        PacketsToServer.Add(0, new Dictionary<int, Func<Packet>>
-        {
-            
-        });
+        
     }
     
-    public Packet GetToClient<T>(IMinecraftReader stream, int packetId, int version) where T : Packet
+    public Packet GetToClient<T>(ConnectionState connectionState, int packetId, int version) where T : Packet
     {
-        return (T)PacketsToClient[version][packetId]();
+
+        return (T)PacketsToClient[version].GetByConnectionState(connectionState)[packetId]();
     }
     
-    public Packet GetToServer<T>(IMinecraftWriter stream, int packetId, int version) where T : Packet
+    public Packet GetToServer<T>(ConnectionState connectionState, int packetId, int version) where T : Packet
     {
-        return (T)PacketsToServer[version][packetId]();
+        return (T)PacketsToServer[version].GetByConnectionState(connectionState)[packetId]();
     }
 }
