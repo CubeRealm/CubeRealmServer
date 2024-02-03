@@ -230,6 +230,12 @@ public class MinecraftStream : Stream, IMinecraftStream
         _ = Read(array, 1, length);
         return array;
     }
+    
+    public long ReadLong()
+    {
+        var l = Read(8);
+        return IPAddress.NetworkToHostOrder(BitConverter.ToInt64(l, 0));
+    }
 
     #endregion
 
@@ -344,6 +350,12 @@ public class MinecraftStream : Stream, IMinecraftStream
     {
         Write(data);
     }
+    
+    public void WriteLong(long data)
+    {
+        Write(BitConverter.GetBytes(IPAddress.HostToNetworkOrder(data)));
+    }
+
     
     #endregion
 

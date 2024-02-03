@@ -16,4 +16,5 @@ public interface IMinecraftReader
     Guid ReadUuid();
     byte[] ReadByteArray();
     byte[] ReadBuffer();
+    long ReadLong();
 }

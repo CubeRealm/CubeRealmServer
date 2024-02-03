@@ -16,5 +16,6 @@ public interface IMinecraftWriter
     void WriteUuid(Guid uuid);
     void WriteByteArray(byte[] values);
     void WriteBuffer(byte[] data);
+    void WriteLong(long data);
 
 }
