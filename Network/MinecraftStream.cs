@@ -233,7 +233,7 @@ public class MinecraftStream : Stream, IMinecraftStream
     
     public long ReadLong()
     {
-        var l = Read(8);
+        byte[] l = Read(8);
         return IPAddress.NetworkToHostOrder(BitConverter.ToInt64(l, 0));
     }
 
