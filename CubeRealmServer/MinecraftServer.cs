@@ -21,22 +21,29 @@ public class MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider s
     { 
         Logger.LogInformation("Activating plugins");
         PluginActivator? pluginActivator = null;
+        
+        
         await Task.Run(() =>
         {
             PluginActivator = pluginActivator = ServiceProvider.GetOriginalService<IPluginActivator, PluginActivator>();
+            
             pluginActivator.Activate();
             Logger.LogInformation("Activated");
         }, cancellationToken);
 
         Logger.LogInformation("Starting NetServer");
+        
+        
         await Task.Run(() =>
         {
             NetServer netServer;
             Network = netServer = ServiceProvider.GetOriginalService<INetServer, NetServer>();
+            
             netServer.Start();
             Logger.LogInformation("Started NetServer");
         }, cancellationToken);
 
+        
         Task.WaitAll();
         
         Logger.LogInformation("Enabling plugins");
