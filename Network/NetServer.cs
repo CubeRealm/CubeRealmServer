@@ -29,16 +29,21 @@ public class NetServer : INetServer
     
     public void Start()
     {
-        IPEndPoint end = new IPEndPoint(IPAddress.Parse(Options.Value.NetServer.Address), Options.Value.NetServer.Port);
+        string address = Options.Value.NetServer.Address;
+        ushort port = Options.Value.NetServer.Port;
+        IPEndPoint end = new IPEndPoint(IPAddress.Parse(address), port);
         
         ServerSocket.Bind(end);
         ServerSocket.Listen(10);
+        
+        Logger.LogInformation("Listen on {}:{}", address, port);
 
         ServerSocket.BeginAccept(IncomingConnection, null);
     }
 
     public void Stop()
     {
+        ServerSocket.Close();
         ServerSocket.Dispose();
     }
 
@@ -59,6 +64,6 @@ public class NetServer : INetServer
             return;
 
         NetConnection connection = ConnectionFactory.Create(client);
-        
+        connection.Start();
     }
 }

@@ -1,6 +1,7 @@
+using NetworkAPI.Protocol;
 using NetworkAPI.Protocol.Util;
 
-namespace NetworkAPI.Protocol.Packets.Handshaking.ToServer;
+namespace CubeRealm.Network.Packets.Packets.Handshaking.ToServer;
 
 public class Handshake : Packet<Handshake>, IToServer
 {

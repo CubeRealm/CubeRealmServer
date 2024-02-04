@@ -42,7 +42,7 @@ class Program
             .UseConsoleLifetime()
             .Build();
         
-        await host.StartAsync();
+        await host.RunAsync();
     }
 
     private static void Configure(HostBuilderContext ctx, IServiceCollection services)

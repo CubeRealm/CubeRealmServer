@@ -1,7 +1,7 @@
+using CubeRealm.Network.Packets.Packets.Handshaking.ToServer;
 using CubeRealm.Network.Packets.Packets.Status.ToServer;
 using NetworkAPI.Protocol;
-using NetworkAPI.Protocol.Packets.Handshaking.ToServer;
-using Ping = CubeRealm.Network.Packets.Packets.Status.ToServer.Ping;
+using Ping = CubeRealm.Network.Packets.Packets.Status.ToBoth.Ping;
 
 namespace CubeRealm.Network.Packets;
 

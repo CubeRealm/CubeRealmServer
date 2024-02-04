@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 using CubeRealm.Network.Packets;
 using Ionic.Zlib;
@@ -11,9 +12,11 @@ public abstract class NetConnection : INetConnection
 {
     public bool IsConnected { get; private set; }
     
-    private protected abstract bool CompressionEnabled { get; }
-    private protected abstract ConnectionState ConnectionState { get; }
-    private protected abstract int Version { get; }
+    private protected abstract bool CompressionEnabled { get; set; }
+    private protected abstract ConnectionState ConnectionState { get; set; }
+    private protected abstract int Version { get; set; }
+
+    private protected BlockingCollection<Packet> PacketsQueue { get; } = new ();
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
@@ -54,7 +57,17 @@ public abstract class NetConnection : INetConnection
 
     private void WriteToStream()
     {
-        
+        using (NetworkStream networkStream = new NetworkStream(Socket))
+        {
+            using (MinecraftStream stream = new MinecraftStream(networkStream))
+            {
+                Packet packet;
+                while ((packet = PacketsQueue.Take()) != null && !CancellationToken.IsCancellationRequested)
+                {
+                    packet.Write(stream);
+                }
+            }
+        }
     }
     
     private void ReadFromStream()
