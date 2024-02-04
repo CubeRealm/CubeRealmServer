@@ -47,7 +47,7 @@ public class NetServer : INetServer
         ServerSocket.Dispose();
     }
 
-    private void IncomingConnection(IAsyncResult ar)
+    private async void IncomingConnection(IAsyncResult ar)
     {
         Socket? client = null;
         try
@@ -64,6 +64,6 @@ public class NetServer : INetServer
             return;
 
         NetConnection connection = ConnectionFactory.Create(client);
-        connection.Start();
+        await connection.Start();
     }
 }

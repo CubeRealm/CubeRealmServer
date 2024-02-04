@@ -33,7 +33,7 @@ class Program
                     options.ColorBehavior = LoggerColorBehavior.Enabled;
                     options.IncludeScopes = true;
                     options.TimestampFormat = "HH:mm:ss.fff ";
-                }))
+                }).SetMinimumLevel(LogLevel.Trace))
             .UseContentRoot(context.ContentRoot)
             .ConfigureAppConfiguration(builder => 
                 builder.AddJsonFile(configPath))

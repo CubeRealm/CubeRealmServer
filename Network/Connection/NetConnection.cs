@@ -34,13 +34,13 @@ public abstract class NetConnection : INetConnection
 
         WriteStream = new Task(WriteToStream);
         ReadStream = new Task(ReadFromStream);
-
+        
         PacketFactory = packetFactory;
         
         socket.Blocking = true;
     }
 
-    internal void Start()
+    internal async Task Start()
     {
         WriteStream.Start();
         ReadStream.Start();
@@ -57,6 +57,7 @@ public abstract class NetConnection : INetConnection
 
     private void WriteToStream()
     {
+        Logger.LogTrace("Connection writer started {}", Thread.CurrentThread.Name);
         using (NetworkStream networkStream = new NetworkStream(Socket))
         {
             using (MinecraftStream stream = new MinecraftStream(networkStream))
@@ -64,6 +65,7 @@ public abstract class NetConnection : INetConnection
                 Packet packet;
                 while ((packet = PacketsQueue.Take()) != null && !CancellationToken.IsCancellationRequested)
                 {
+                    Logger.LogTrace("Sending packet {}", packet.GetType().Name);
                     packet.Write(stream);
                 }
             }
@@ -72,6 +74,7 @@ public abstract class NetConnection : INetConnection
     
     private void ReadFromStream()
     {
+        Logger.LogTrace("Connection reader started {}", Thread.CurrentThread.Name);
         try
         {
             using (NetworkStream networkStream = new NetworkStream(Socket))
@@ -87,6 +90,8 @@ public abstract class NetConnection : INetConnection
                         {
                             var length = minecraftStream.ReadVarInt();
                             packetId = minecraftStream.ReadVarInt(out var packetIdLength);
+                            Logger.LogTrace($"packetId {packetId:x2}");
+                            Logger.LogTrace("length - packetIdLength = {}", length - packetIdLength);
                             if (length - packetIdLength > 0)
                             {
                                 packetData = minecraftStream.Read(length - packetIdLength);

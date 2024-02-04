@@ -40,13 +40,13 @@ public class PacketFactory : IPacketFactory
         PacketsToServer = new Dictionary<int, PacketsDictionary>
         {
             { 0, toServer },
-            { 758, toServer }
+            { 765, toServer }
         };
         
         PacketsToClient = new Dictionary<int, PacketsDictionary>
         {
             { 0, toClient },
-            { 758, toClient }
+            { 765, toClient }
         };
         
     }

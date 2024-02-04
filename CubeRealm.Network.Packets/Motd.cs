@@ -8,7 +8,7 @@ public class Motd
     [JsonProperty(PropertyName = "version")] public VersionPart Version { get; init; }
     [JsonProperty(PropertyName = "players")] public PlayersPart Players { get; init; }
     [JsonProperty(PropertyName = "description")] public DescriptionPart Description { get; init; }
-    [JsonProperty(PropertyName = "description")] public string Icon { get; init; }
+    [JsonProperty(PropertyName = "icon")] public string Icon { get; init; }
     [JsonProperty(PropertyName = "enforcesSecureChat")] public bool SecureChat { get; init; }
     [JsonProperty(PropertyName = "previewsChat")] public bool PreviewsChat { get; init; }
     

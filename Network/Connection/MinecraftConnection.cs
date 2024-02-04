@@ -11,17 +11,12 @@ using Newtonsoft.Json;
 
 namespace Network.Connection;
 
-public class MinecraftConnection : NetConnection
+public class MinecraftConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, Socket socket)
+    : NetConnection(logger, packetFactory, socket)
 {
-    private protected override bool CompressionEnabled { get; set; }
+    private protected override bool CompressionEnabled { get; set; } = false;
     private protected override ConnectionState ConnectionState { get; set; } = ConnectionState.Handshake;
     private protected override int Version { get; set; }
-
-    public MinecraftConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, Socket socket) :
-        base(logger, packetFactory, socket)
-    {
-        
-    }
 
     private protected override void HandlePacket(Packet packet)
     {
@@ -29,11 +24,16 @@ public class MinecraftConnection : NetConnection
         {
             if (packet is Handshake handshake)
             {
+                logger.LogTrace("Handshake {} {} {} {}", 
+                    handshake.ProtocolVersion,
+                    handshake.Address,
+                    handshake.Port,
+                    handshake.NextState);
                 Version = handshake.ProtocolVersion;
+                if (handshake.NextState == 1)
+                    ConnectionState = ConnectionState.Status;
                 if (handshake.NextState == 2)
-                {
                     UnsafeDisconnect();
-                }
             }
         }
         else if (ConnectionState == ConnectionState.Status)
@@ -44,13 +44,14 @@ public class MinecraftConnection : NetConnection
             }
             if (packet is StatusRequest statusRequest)
             {
+                
                 PacketsQueue.Add(new StatusResponse
                 {
                     JsonString = JsonConvert.SerializeObject(new Motd
                     {
                         Version = new Motd.VersionPart
                         {
-                            Name = "1.18.2",
+                            Name = "1.20.4",
                             Protocol = Version
                         },
                         Players = new Motd.PlayersPart
