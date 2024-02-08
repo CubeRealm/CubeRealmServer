@@ -1,8 +1,3 @@
-namespace NetworkAPI.Protocol;
+namespace CubeRealm.Network.Packets;
 
-public interface IToClient
-{
-    
-    byte ClientId { get; }
-    
-}
+public interface IToClient;

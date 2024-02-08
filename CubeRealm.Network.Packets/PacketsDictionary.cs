@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Data;
+using CubeRealm.Network.Packets.Packets.Play.ToClient;
 using NetworkAPI.Protocol;
 using ConnectionState = Network.ConnectionState;
 
@@ -8,12 +9,12 @@ namespace CubeRealm.Network.Packets;
 
 public class PacketsDictionary
 {
-    private IDictionary<int, Func<Packet>> _handshake = ReadOnlyDictionary<int, Func<Packet>>.Empty;
-    private IDictionary<int, Func<Packet>> _status = ReadOnlyDictionary<int, Func<Packet>>.Empty;
-    private IDictionary<int, Func<Packet>> _login = ReadOnlyDictionary<int, Func<Packet>>.Empty;
-    private IDictionary<int, Func<Packet>> _play = ReadOnlyDictionary<int, Func<Packet>>.Empty;
+    private IList<Type> _handshake = [];
+    private IList<Type> _status = [];
+    private IList<Type> _login = [];
+    private IList<Type> _play = [];
 
-    public IDictionary<int, Func<Packet>> GetByConnectionState(ConnectionState state)
+    public IList<Type> GetByConnectionState(ConnectionState state)
     {
         switch (state)
         {
@@ -30,27 +31,27 @@ public class PacketsDictionary
         throw new Exception("What?");
     }
     
-    public IDictionary<int, Func<Packet>> Handshake
+    public IList<Type> Handshake
     {
         get => _handshake;
-        init => _handshake = new ReadOnlyDictionary<int, Func<Packet>>(value);
+        init => _handshake = new ReadOnlyCollection<Type>(value);
     }
 
-    public IDictionary<int, Func<Packet>> Status
+    public IList<Type> Status
     {
         get => _status;
-        init => _status = new ReadOnlyDictionary<int, Func<Packet>>(value);
+        init => _status = new ReadOnlyCollection<Type>(value);
     }
     
-    public IDictionary<int, Func<Packet>> Login
+    public IList<Type> Login
     {
         get => _login;
-        init => _login = new ReadOnlyDictionary<int, Func<Packet>>(value);
+        init => _login = new ReadOnlyCollection<Type>(value);
     }
     
-    public IDictionary<int, Func<Packet>> Play
+    public IList<Type> Play
     {
         get => _play;
-        init => _play = new ReadOnlyDictionary<int, Func<Packet>>(value);
+        init => _play = new ReadOnlyCollection<Type>(value);
     }
 }

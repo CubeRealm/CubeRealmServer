@@ -1,15 +1,14 @@
-﻿using NetworkAPI.Protocol;
-using NetworkAPI.Protocol.Util;
+﻿using NetworkAPI.Protocol.Util;
 
-namespace NetworkAPI.Protocol.Packets.Login.ToServer;
-public class EncryptionBegin : Packet<EncryptionBegin>, IToServer
+namespace CubeRealm.Network.Packets.Packets.Login.ToServer;
+public class EncryptionBegin : IPacket, IToServer
 {
-    public byte ServerId => 0x01;
+    public int PacketId => 0x01;
 
     public byte[] SharedSecret { get; set; }
     public byte[] VerifyToken { get; set; }
 
-    public override void Read(IMinecraftStream stream)
+    public void Read(IMinecraftStream stream)
     {
         int sharedSecretLength = stream.ReadVarInt();
         SharedSecret = stream.Read(sharedSecretLength);
@@ -17,7 +16,7 @@ public class EncryptionBegin : Packet<EncryptionBegin>, IToServer
         VerifyToken = stream.Read(verifyTokenLength);
     }
 
-    public override void Write(IMinecraftStream stream)
+    public void Write(IMinecraftStream stream)
     {
         stream.WriteVarInt(SharedSecret.Length);
         stream.Write(SharedSecret);

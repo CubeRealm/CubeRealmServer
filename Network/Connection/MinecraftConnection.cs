@@ -18,7 +18,7 @@ public class MinecraftConnection(ILogger<NetConnection> logger, PacketFactory pa
     private protected override ConnectionState ConnectionState { get; set; } = ConnectionState.Handshake;
     private protected override int Version { get; set; }
 
-    private protected override void HandlePacket(Packet packet)
+    private protected override void HandlePacket(IPacket packet)
     {
         if (ConnectionState == ConnectionState.Handshake)
         {

@@ -4,37 +4,25 @@ using CubeRealm.Network.Packets.Packets.Status.ToClient;
 using CubeRealm.Network.Packets.Packets.Status.ToServer;
 using Network;
 using NetworkAPI;
-using NetworkAPI.Protocol;
 
 namespace CubeRealm.Network.Packets;
 
 public class PacketFactory : IPacketFactory
 {
-    //<version, <packedId, Packet>>
-    private IDictionary<int, PacketsDictionary> PacketsToServer { get; } = new Dictionary<int, PacketsDictionary>();
-    private IDictionary<int, PacketsDictionary> PacketsToClient { get; } = new Dictionary<int, PacketsDictionary>();
+    //<version, Packet>
+    private IDictionary<int, PacketsDictionary> PacketsToServer { get; }
+    private IDictionary<int, PacketsDictionary> PacketsToClient { get; }
     
     public PacketFactory()
     {
         PacketsDictionary toServer = new PacketsDictionary
         {
-            Handshake = new Dictionary<int, Func<Packet>>
-            {
-                { 0, () => new Handshake() }
-            },
-            Status = new Dictionary<int, Func<Packet>>
-            {
-                { 0, () => new StatusRequest() },
-                { 1, () => new Ping() }
-            }
+            Handshake = [typeof(Handshake)],
+            Status = [typeof(StatusRequest), typeof(Ping)]
         };
         PacketsDictionary toClient = new PacketsDictionary
         {
-            Status = new Dictionary<int, Func<Packet>>
-            {
-                { 0, () => new StatusResponse() },
-                { 1, () => new Ping() }
-            }
+            Status = [typeof(StatusResponse), typeof(Ping)]
         };
         
         PacketsToServer = new Dictionary<int, PacketsDictionary>
@@ -51,14 +39,15 @@ public class PacketFactory : IPacketFactory
         
     }
     
-    public Packet GetToClient<T>(ConnectionState connectionState, int packetId, int version) where T : Packet
+    public IPacket GetToClient<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket
     {
-
-        return (T)PacketsToClient[version].GetByConnectionState(connectionState)[packetId]();
+        Type packetType = PacketsToClient[version].GetByConnectionState(connectionState)[packetId];
+        return (T)Activator.CreateInstance(packetType);
     }
     
-    public Packet GetToServer<T>(ConnectionState connectionState, int packetId, int version) where T : Packet
+    public IPacket GetToServer<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket
     {
-        return (T)PacketsToServer[version].GetByConnectionState(connectionState)[packetId]();
+        Type packetType = PacketsToServer[version].GetByConnectionState(connectionState)[packetId];
+        return (T)Activator.CreateInstance(packetType);
     }
 }

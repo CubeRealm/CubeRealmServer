@@ -1,21 +1,10 @@
 using NetworkAPI.Protocol.Util;
 
-namespace NetworkAPI.Protocol;
+namespace CubeRealm.Network.Packets;
 
-public abstract class Packet
+public interface IPacket
 {
-
-    public int PacketId { get; set; } = -1;
-
-    public abstract void Read(IMinecraftStream stream);
-    public abstract void Write(IMinecraftStream stream);
-
-}
-
-public abstract class Packet<TPacket> : Packet where TPacket : Packet<TPacket>, new()
-{
-    public static TPacket CreateObject()
-    {
-        return new TPacket();
-    }
+    public int PacketId { get; }
+    public void Read(IMinecraftStream stream);
+    public void Write(IMinecraftStream stream);
 }

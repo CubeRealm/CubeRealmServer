@@ -16,7 +16,7 @@ public abstract class NetConnection : INetConnection
     private protected abstract ConnectionState ConnectionState { get; set; }
     private protected abstract int Version { get; set; }
 
-    private protected BlockingCollection<Packet> PacketsQueue { get; } = new ();
+    private protected BlockingCollection<IPacket> PacketsQueue { get; } = new ();
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
@@ -62,11 +62,17 @@ public abstract class NetConnection : INetConnection
         {
             using (MinecraftStream stream = new MinecraftStream(networkStream))
             {
-                Packet packet;
+                IPacket packet;
                 while ((packet = PacketsQueue.Take()) != null && !CancellationToken.IsCancellationRequested)
                 {
                     Logger.LogTrace("Sending packet {}", packet.GetType().Name);
-                    packet.Write(stream);
+                    MinecraftStream fakeMcStream = new MinecraftStream(new MemoryStream());
+                    fakeMcStream.WriteVarInt(packet.PacketId);
+                    packet.Write(fakeMcStream);
+                    int packetLen = (int)fakeMcStream.Length;
+                    
+                    stream.WriteVarInt(packetLen);
+                    stream.Write(((MemoryStream) fakeMcStream.BaseStream).ToArray());
                 }
             }
         }
@@ -83,7 +89,7 @@ public abstract class NetConnection : INetConnection
                 {
                     while (!CancellationToken.IsCancellationRequested)
                     {
-                        Packet packet;
+                        IPacket packet;
                         int packetId;
                         byte[] packetData;
                         if (!CompressionEnabled)
@@ -124,7 +130,7 @@ public abstract class NetConnection : INetConnection
                                 }
                             }
                         }
-                        packet = PacketFactory.GetToServer<Packet>(ConnectionState, packetId, Version);
+                        packet = PacketFactory.GetToServer<IPacket>(ConnectionState, packetId, Version);
                         if (packet == null)
                         {
                             Logger.LogWarning($"Unhandled package! 0x{packetId:x2}");
@@ -153,7 +159,7 @@ public abstract class NetConnection : INetConnection
         }
     }
 
-    private protected abstract void HandlePacket(Packet packet);
+    private protected abstract void HandlePacket(IPacket packet);
 
     public static void DecompressData(byte[] inData, out byte[] outData)
     {

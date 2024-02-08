@@ -1,18 +1,18 @@
 using NetworkAPI.Protocol.Util;
 
-namespace NetworkAPI.Protocol.Packets.Login.ToServer;
+namespace CubeRealm.Network.Packets.Packets.Login.ToServer;
 
-public class LoginAcknowledged : Packet<LoginAcknowledged>, IToServer
+public class LoginAcknowledged : IPacket, IToServer
 {
-    public override void Read(IMinecraftStream stream)
+    public int PacketId => 0x03;
+    
+    public void Read(IMinecraftStream stream)
     {
         //No fields
     }
 
-    public override void Write(IMinecraftStream stream)
+    public void Write(IMinecraftStream stream)
     {
         //No fields
     }
-
-    public byte ServerId => 0x03;
 }

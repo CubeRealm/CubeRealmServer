@@ -7,9 +7,9 @@ namespace CubeRealm.Network.Packets;
 
 public class PacketsRegistrar
 {
-    public Dictionary<int, Func<Packet>> RegisterBaseToServer<T>() where T : Packet, IToServer
+    public Dictionary<int, Func<IPacket>> RegisterBaseToServer<T>() where T : IPacket, IToServer
     {
-        return new Dictionary<int, Func<Packet>>
+        return new Dictionary<int, Func<IPacket>>
         {
             { 0, () => new Handshake() },
             { 0, () => new StatusRequest() },

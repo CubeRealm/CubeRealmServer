@@ -1,21 +1,19 @@
 using NetworkAPI.Protocol.Util;
 
-namespace NetworkAPI.Protocol.Packets.Login.ToClient;
+namespace CubeRealm.Network.Packets.Packets.Login.ToClient;
 
-public class SetCompression : Packet<SetCompression>, IToClient
+public class SetCompression : IPacket, IToClient
 {
-    
+    public int PacketId => 0x03;
     public int Threshold { get; set; }
     
-    public override void Read(IMinecraftStream stream)
+    public void Read(IMinecraftStream stream)
     {
         Threshold = stream.ReadVarInt();
     }
 
-    public override void Write(IMinecraftStream stream)
+    public void Write(IMinecraftStream stream)
     {
         stream.WriteVarInt(Threshold);
     }
-
-    public byte ClientId => 0x03;
 }
