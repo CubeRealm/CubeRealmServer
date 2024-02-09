@@ -19,6 +19,8 @@ public class MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider s
 
     public async Task StartAsync(CancellationToken cancellationToken)
     { 
+        Logger.LogInformation("Server start thread '{}'", Thread.CurrentThread.Name);
+        
         Logger.LogInformation("Activating plugins");
         PluginActivator? pluginActivator = null;
         

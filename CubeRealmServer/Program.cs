@@ -17,6 +17,7 @@ class Program
 {
     public static async Task Main(string[] args)
     {
+        Thread.CurrentThread.Name = "Starter";
         IHostEnv context = new HostEnv(AppContext.BaseDirectory);
         
         Assembly assembly = Assembly.GetExecutingAssembly();
