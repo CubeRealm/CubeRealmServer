@@ -14,7 +14,7 @@ public class MinecraftWorld
         ChunkLocation chunkLocation = location.ChunkLocation;
         Chunk chunk = GetChunkByLocation(chunkLocation);
 
-        Location blockLocation = new Location(location.IntX % 16, location.IntY , location.IntZ % 16);
+        Location blockLocation = new Location(location.BlockX % 16, location.BlockY , location.BlockZ % 16);
     }
 
     public void GenerateChunk(ChunkLocation location)
@@ -23,7 +23,7 @@ public class MinecraftWorld
     }
 
 
-    public Chunk GetChunkByLocation(ChunkLocation location) { return Chunks[location.x, location.z]; } 
-    public Chunk GetChunkByLocation(Location location) { return Chunks[location.ChunkLocation.x, location.ChunkLocation.z]; } 
+    public Chunk GetChunkByLocation(ChunkLocation location) { return Chunks[location.X, location.Z]; } 
+    public Chunk GetChunkByLocation(Location location) { return Chunks[location.ChunkLocation.X, location.ChunkLocation.Z]; } 
     
 }

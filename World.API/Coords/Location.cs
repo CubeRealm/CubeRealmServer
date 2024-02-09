@@ -1,58 +1,25 @@
 namespace World.API.Coords;
 
-public class Location
+public readonly struct Location(double x, double y, double z)
 {
-    public Location(double x, double y, double z)
-    {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
+    public double X { get; } = x;
+    public double Y { get; } = y;
+    public double Z { get; } = z;
 
-    public double x { get; set; }
-    public double y { get; set; }
-    public double z { get; set; }
+    public int BlockX => Convert.ToInt32(X);
+    public int BlockY => Convert.ToInt32(Y);
+    public int BlockZ => Convert.ToInt32(Z);
 
-    public int IntX
-    {
-        get
-        {
-            return Convert.ToInt32(x);
-        }
-    }
-    
-    public int IntY
-    {
-        get
-        {
-            return Convert.ToInt32(y);
-        }
-    }
-    
-    public int IntZ
-    {
-        get
-        {
-            return Convert.ToInt32(z);
-        }
-    }
-    
-    public ChunkLocation ChunkLocation
-    {
-        get
-        {
-            return new ChunkLocation(Convert.ToInt32(x / 16), Convert.ToInt32(z / 16));
-        }
-    } 
+    public ChunkLocation ChunkLocation => new(Convert.ToInt32(X / 16), Convert.ToInt32(Z / 16));
 
     public static Location operator +(Location location1, Location location2)
     {
-        return new Location(location1.x + location2.x, location1.y + location2.y, location1.z + location2.z);
+        return new Location(location1.X + location2.X, location1.Y + location2.Y, location1.Z + location2.Z);
     }
     
     public static Location operator -(Location location1, Location location2)
     {
-        return new Location(location1.x - location2.x, location1.y - location2.y, location1.z - location2.z);
+        return new Location(location1.X - location2.X, location1.Y - location2.Y, location1.Z - location2.Z);
     }
     
 }

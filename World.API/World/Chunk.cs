@@ -10,7 +10,7 @@ public class Chunk
 
     public void SetBlock(Location location, IBlock block)
     {
-        Blocks[location.IntX, location.IntY, location.IntZ] = block;
+        Blocks[location.BlockX, location.BlockY, location.BlockZ] = block;
     }
     
 }
