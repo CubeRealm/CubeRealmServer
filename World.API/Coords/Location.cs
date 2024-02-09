@@ -12,12 +12,36 @@ public class Location
     public double x { get; set; }
     public double y { get; set; }
     public double z { get; set; }
+
+    public int IntX
+    {
+        get
+        {
+            return Convert.ToInt32(x);
+        }
+    }
+    
+    public int IntY
+    {
+        get
+        {
+            return Convert.ToInt32(y);
+        }
+    }
+    
+    public int IntZ
+    {
+        get
+        {
+            return Convert.ToInt32(z);
+        }
+    }
     
     public ChunkLocation ChunkLocation
     {
         get
         {
-            return new ChunkLocation(x / 16, z / 16);
+            return new ChunkLocation(Convert.ToInt32(x / 16), Convert.ToInt32(z / 16));
         }
     } 
 

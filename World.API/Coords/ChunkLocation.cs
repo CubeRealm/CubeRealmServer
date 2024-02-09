@@ -3,14 +3,14 @@ namespace World.API.Coords;
 public class ChunkLocation
 {
     
-    public ChunkLocation(double x, double z)
+    public ChunkLocation(int x, int z)
     {
         this.x = x;
         this.z = z;
     }
 
-    public double x { get; set; }
-    public double z { get; set; }
+    public int x { get; set; }
+    public int z { get; set; }
 
     public static ChunkLocation operator +(ChunkLocation location1, ChunkLocation location2)
     {
