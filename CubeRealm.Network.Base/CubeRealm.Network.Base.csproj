@@ -7,23 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Network.API\Network.API.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Packets\Configuration\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="Packets\Configuration\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Packets\Configuration\**" />
+      <ProjectReference Include="..\Network.API\Network.API.csproj" />
     </ItemGroup>
 
 </Project>

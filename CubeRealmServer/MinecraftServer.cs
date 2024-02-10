@@ -1,3 +1,4 @@
+using CubeRealm.Network.Base;
 using CubeRealmServer.API;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
