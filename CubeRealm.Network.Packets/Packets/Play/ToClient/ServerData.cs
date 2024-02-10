@@ -2,9 +2,9 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets.Packets.Play.ToClient;
 
-public class ServerData : IPacket, IToClient
+public class ServerData : Packet<ServerData>, IToClient
 {
-    public  int PacketId => 0x49;
+    public override int PacketId => 0x49;
     
     public string Motd { get; set; }
     public bool HasIcon { get; set; }
@@ -12,7 +12,7 @@ public class ServerData : IPacket, IToClient
     public byte[] Icon { get; set; }
     public bool EnforceSecureChat { get; set; }
     
-    public void Read(IMinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         Motd = stream.ReadString();
         HasIcon = stream.ReadBool();
@@ -21,7 +21,7 @@ public class ServerData : IPacket, IToClient
         EnforceSecureChat = stream.ReadBool();
     }
 
-    public void Write(IMinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteString(Motd);
         stream.WriteBool(HasIcon);

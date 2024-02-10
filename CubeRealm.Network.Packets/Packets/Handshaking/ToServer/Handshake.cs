@@ -3,16 +3,16 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets.Packets.Handshaking.ToServer;
 
-public class Handshake : IPacket, IToServer
+public class Handshake : Packet<Handshake>, IToServer
 {
-    public int PacketId => 0x00;
+    public override int PacketId => 0x00;
     
     public int ProtocolVersion { get; set; }
     public string Address { get; set; }
     public ushort Port { get; set; }
     public int NextState { get; set; }
 
-    public void Read(IMinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         ProtocolVersion = stream.ReadVarInt();
         Address = stream.ReadString();
@@ -21,7 +21,7 @@ public class Handshake : IPacket, IToServer
     }
     
 
-    public void Write(IMinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteVarInt(ProtocolVersion);
         stream.WriteString(Address);

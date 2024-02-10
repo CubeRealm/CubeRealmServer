@@ -2,17 +2,17 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets.Packets.Login.ToClient;
 
-public class Disconnect : IPacket, IToClient
+public class Disconnect : Packet<Disconnect>, IToClient
 {
-    public int PacketId => 0x00;
+    public override int PacketId => 0x00;
     public string Reason { get; set; }
     
-    public void Read(IMinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         Reason = stream.ReadString();
     }
 
-    public void Write(IMinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteString(Reason);
     }

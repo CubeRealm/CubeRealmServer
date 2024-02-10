@@ -9,12 +9,12 @@ namespace CubeRealm.Network.Packets;
 
 public class PacketsDictionary
 {
-    private IList<Type> _handshake = [];
-    private IList<Type> _status = [];
-    private IList<Type> _login = [];
-    private IList<Type> _play = [];
+    private IList<IPacket> _handshake = [];
+    private IList<IPacket> _status = [];
+    private IList<IPacket> _login = [];
+    private IList<IPacket> _play = [];
 
-    public IList<Type> GetByConnectionState(ConnectionState state)
+    public IList<IPacket> GetByConnectionState(ConnectionState state)
     {
         switch (state)
         {
@@ -31,27 +31,27 @@ public class PacketsDictionary
         throw new Exception("What?");
     }
     
-    public IList<Type> Handshake
+    public IList<IPacket> Handshake
     {
         get => _handshake;
-        init => _handshake = new ReadOnlyCollection<Type>(value);
+        init => _handshake = new ReadOnlyCollection<IPacket>(value);
     }
 
-    public IList<Type> Status
+    public IList<IPacket> Status
     {
         get => _status;
-        init => _status = new ReadOnlyCollection<Type>(value);
+        init => _status = new ReadOnlyCollection<IPacket>(value);
     }
     
-    public IList<Type> Login
+    public IList<IPacket> Login
     {
         get => _login;
-        init => _login = new ReadOnlyCollection<Type>(value);
+        init => _login = new ReadOnlyCollection<IPacket>(value);
     }
     
-    public IList<Type> Play
+    public IList<IPacket> Play
     {
         get => _play;
-        init => _play = new ReadOnlyCollection<Type>(value);
+        init => _play = new ReadOnlyCollection<IPacket>(value);
     }
 }

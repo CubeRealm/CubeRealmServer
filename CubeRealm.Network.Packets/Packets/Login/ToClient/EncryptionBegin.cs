@@ -2,16 +2,16 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets.Packets.Login.ToClient;
 
-public class EncryptionBegin : IPacket, IToClient
+public class EncryptionBegin : Packet<EncryptionBegin>, IToClient
 {
-    public int PacketId => 0x01;
+    public override int PacketId => 0x01;
     
     public string ServerId { get; set; }
     public byte[] PublicKey { get; set; }
     public byte[] VerifyToken { get; set; }
 
 
-    public void Read(IMinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         ServerId = stream.ReadString();
         int publicKeyLength = stream.ReadVarInt();
@@ -20,7 +20,7 @@ public class EncryptionBegin : IPacket, IToClient
         VerifyToken = stream.Read(verifyTokenLength);
     }
 
-    public void Write(IMinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteString(ServerId);
         stream.WriteVarInt(PublicKey.Length);

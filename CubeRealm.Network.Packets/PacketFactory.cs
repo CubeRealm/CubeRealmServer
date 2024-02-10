@@ -17,12 +17,12 @@ public class PacketFactory : IPacketFactory
     {
         PacketsDictionary toServer = new PacketsDictionary
         {
-            Handshake = [typeof(Handshake)],
-            Status = [typeof(StatusRequest), typeof(Ping)]
+            Handshake = [new Handshake()],
+            Status = [new StatusRequest(), new Ping()]
         };
         PacketsDictionary toClient = new PacketsDictionary
         {
-            Status = [typeof(StatusResponse), typeof(Ping)]
+            Status = [new StatusResponse(), new Ping()]
         };
         
         PacketsToServer = new Dictionary<int, PacketsDictionary>
@@ -39,15 +39,15 @@ public class PacketFactory : IPacketFactory
         
     }
     
-    public IPacket GetToClient<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket
+    public T GetToClient<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket
     {
-        Type packetType = PacketsToClient[version].GetByConnectionState(connectionState)[packetId];
-        return (T)Activator.CreateInstance(packetType);
+        IPacket packetType = PacketsToClient[version].GetByConnectionState(connectionState)[packetId];
+        return (T)packetType.CreateNew();
     }
     
-    public IPacket GetToServer<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket
+    public T GetToServer<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket
     {
-        Type packetType = PacketsToServer[version].GetByConnectionState(connectionState)[packetId];
-        return (T)Activator.CreateInstance(packetType);
+        IPacket packetType = PacketsToServer[version].GetByConnectionState(connectionState)[packetId];
+        return (T)packetType.CreateNew();
     }
 }

@@ -2,18 +2,18 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Packets.Packets.Play.ToClient;
 
-public class Ping : IPacket, IToClient
+public class Ping : Packet<Ping>, IToClient
 {
-    public int PacketId => 0x04;
+    public override int PacketId => 0x04;
     
     public int Id { get; set; }
     
-    public void Read(IMinecraftStream stream)
+    public override void Read(IMinecraftStream stream)
     {
         Id = stream.ReadInt();
     }
 
-    public void Write(IMinecraftStream stream)
+    public override void Write(IMinecraftStream stream)
     {
         stream.WriteInt(Id);
     }

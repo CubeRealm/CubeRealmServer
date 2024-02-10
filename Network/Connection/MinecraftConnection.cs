@@ -33,7 +33,7 @@ public class MinecraftConnection(ILogger<NetConnection> logger, PacketFactory pa
                 if (handshake.NextState == 1)
                     ConnectionState = ConnectionState.Status;
                 if (handshake.NextState == 2)
-                    UnsafeDisconnect();
+                    StartLogin();
             }
         }
         else if (ConnectionState == ConnectionState.Status)
@@ -42,7 +42,7 @@ public class MinecraftConnection(ILogger<NetConnection> logger, PacketFactory pa
             {
                 PacketsQueue.Add(new Ping());
             }
-            if (packet is StatusRequest statusRequest)
+            if (packet is StatusRequest)
             {
                 
                 PacketsQueue.Add(new StatusResponse
@@ -70,5 +70,10 @@ public class MinecraftConnection(ILogger<NetConnection> logger, PacketFactory pa
                 });
             }
         }
+    }
+
+    private void StartLogin()
+    {
+        ConnectionState = ConnectionState.Login;
     }
 }
