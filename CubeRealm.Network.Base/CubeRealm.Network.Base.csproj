@@ -7,10 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Iconic.Zlib.Netstandard" Version="1.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CubeRealmServer.API\CubeRealmServer.API.csproj" />
       <ProjectReference Include="..\Network.API\Network.API.csproj" />
     </ItemGroup>
 

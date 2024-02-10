@@ -1,3 +1,4 @@
+using CubeRealm.Network.Base.PacketsBase;
 using NetworkAPI;
 using PluginAPI;
 
@@ -7,4 +8,7 @@ public interface IMinecraftServer
 {
     INetServer Network { get; }
     IPluginActivator PluginActivator { get; }
+    
+    Motd Status { get; }
+    string CachedStatus { get; }
 }

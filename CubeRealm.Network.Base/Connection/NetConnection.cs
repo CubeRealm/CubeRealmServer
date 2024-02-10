@@ -1,31 +1,42 @@
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+using CubeRealm.Network.Base.PacketsBase;
+using CubeRealm.Network.Base.PacketsBase.Packets;
+using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToBoth;
+using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
+using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;
 using CubeRealm.Network.Packets;
+using CubeRealmServer.API;
 using Ionic.Zlib;
 using Microsoft.Extensions.Logging;
+using Network;
 using NetworkAPI;
-using NetworkAPI.Protocol;
+using CompressionLevel = Ionic.Zlib.CompressionLevel;
+using CompressionMode = Ionic.Zlib.CompressionMode;
 
-namespace Network.Connection;
+namespace CubeRealm.Network.Base.Connection;
 
-public abstract class NetConnection : INetConnection
+internal class NetConnection : INetConnection
 {
     public bool IsConnected { get; private set; }
     
-    private protected abstract bool CompressionEnabled { get; set; }
-    private protected abstract ConnectionState ConnectionState { get; set; }
-    private protected abstract int Version { get; set; }
+    private bool CompressionEnabled { get; set; }
+    private ConnectionState ConnectionState { get; set; }
+    private int Version { get; set; }
 
-    private protected BlockingCollection<IPacket> PacketsQueue { get; } = new ();
+    private BlockingCollection<IPacket> PacketsQueue { get; } = new ();
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
+    private PacketHandlerFactory PacketHandlerFactory { get; set; }
+    private PacketHandler PacketHandler { get; set; }
+    private IMinecraftServer MinecraftServer { get; }
     private CancellationTokenSource CancellationToken { get; }
     private Task WriteStream { get; }
     private Task ReadStream { get; }
     private PacketFactory PacketFactory { get; }
     
-    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, Socket socket)
+    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, PacketHandlerFactory packetHandlerFactory, IMinecraftServer server, Socket socket)
     {
         Logger = logger;
         Socket = socket;
@@ -36,11 +47,15 @@ public abstract class NetConnection : INetConnection
         ReadStream = new Task(ReadFromStream);
         
         PacketFactory = packetFactory;
+        PacketHandlerFactory = packetHandlerFactory;
+        MinecraftServer = server;
+        
+        ConnectionState = ConnectionState.Handshake;
         
         socket.Blocking = true;
     }
 
-    internal async Task Start()
+    internal void Start()
     {
         WriteStream.Start();
         ReadStream.Start();
@@ -104,7 +119,7 @@ public abstract class NetConnection : INetConnection
                             }
                             else
                             {
-                                packetData = new byte[0];
+                                packetData = Array.Empty<byte>();
                             }
                         }
                         else
@@ -138,7 +153,7 @@ public abstract class NetConnection : INetConnection
                         }
                         Logger.LogInformation($" << Receiving packet 0x{packet.PacketId:x2} ({packet.GetType().Name})");
                         packet.Read(new MinecraftStream(new MemoryStream(packetData)));
-                        HandlePacket(packet);
+                        PreHandlePacket(packet);
                     }
                 }
             }
@@ -159,7 +174,46 @@ public abstract class NetConnection : INetConnection
         }
     }
 
-    private protected abstract void HandlePacket(IPacket packet);
+    private void PreHandlePacket(IPacket packet)
+    {
+        if (ConnectionState == ConnectionState.Handshake || ConnectionState == ConnectionState.Status)
+        {
+            if (packet is Handshake handshake)
+            {
+                Logger.LogTrace("Handshake {} {} {} {}",
+                    handshake.ProtocolVersion,
+                    handshake.Address,
+                    handshake.Port,
+                    handshake.NextState);
+                Version = handshake.ProtocolVersion;
+                if (handshake.NextState == 1)
+                {
+                    ConnectionState = ConnectionState.Status;
+                }
+                if (handshake.NextState == 2)
+                {
+                    PacketHandler = PacketHandlerFactory.Create(Version, pack => PacketsQueue.Add(pack));
+                    ConnectionState = ConnectionState.Login;
+                }
+            }
+
+            if (packet is StatusRequest)
+            {
+                PacketsQueue.Add(new StatusResponse
+                {
+                    JsonString = MinecraftServer.CachedStatus
+                });
+            }
+            
+            if (packet is Ping)
+            {
+                PacketsQueue.Add(new Ping());
+            }
+            return;
+        }
+        
+        PacketHandler.HandlePacket(packet);
+    }
 
     public static void DecompressData(byte[] inData, out byte[] outData)
     {

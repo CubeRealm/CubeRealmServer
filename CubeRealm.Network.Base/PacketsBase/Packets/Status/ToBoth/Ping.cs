@@ -1,7 +1,7 @@
 using CubeRealm.Network.Packets;
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealmProtocol.Version765.Status.ToBoth;
+namespace CubeRealm.Network.Base.PacketsBase.Packets.Status.ToBoth;
 
 public class Ping : Packet<Ping>, IToServer, IToClient
 {

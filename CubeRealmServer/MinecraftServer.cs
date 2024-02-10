@@ -1,22 +1,60 @@
 using CubeRealm.Network.Base;
+using CubeRealm.Network.Base.PacketsBase;
 using CubeRealmServer.API;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Network;
 using NetworkAPI;
+using Newtonsoft.Json;
 using Plugin;
 using PluginAPI;
 
 namespace CubeRealmServer;
 
-public class MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider serviceProvider)
-    : IHostedService, IMinecraftServer
+public class MinecraftServer : IHostedService, IMinecraftServer
 {
-    private ILogger<MinecraftServer> Logger => logger;
-    private IServiceProvider ServiceProvider => serviceProvider;
+    private Motd _motd;
+    
+    private ILogger<MinecraftServer> Logger { get; }
+    private IServiceProvider ServiceProvider { get; }
     public INetServer Network { get; private set; }
     public IPluginActivator PluginActivator { get; private set; }
+
+    public Motd Status
+    {
+        get => _motd;
+        private set => CachedStatus = JsonConvert.SerializeObject(_motd = value);
+    }
+
+    public string CachedStatus { get; private set; }
+
+    public MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider serviceProvider)
+    {
+        Logger = logger;
+        ServiceProvider = serviceProvider;
+        
+        Status = new()
+        {
+            Version = new Motd.VersionPart
+            {
+                Name = "1.20.4",
+                Protocol = 765
+            },
+            Players = new Motd.PlayersPart
+            {
+                Max = int.MaxValue,
+                Online = int.MaxValue
+            },
+            Description = new Motd.DescriptionPart
+            {
+                Text = "MDK"
+            },
+            Icon = "",
+            PreviewsChat = false,
+            SecureChat = false
+        };
+    }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     { 

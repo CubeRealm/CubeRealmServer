@@ -1,7 +1,7 @@
 using CubeRealm.Network.Packets;
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealmProtocol.Version765.Status.ToClient;
+namespace CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
 
 public class StatusResponse : Packet<StatusResponse>, IToServer
 {

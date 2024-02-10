@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using CubeRealm.Network.Base.Connection;
+using CubeRealmServer.API;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Network;
-using Network.Connection;
 using NetworkAPI;
 
 namespace CubeRealm.Network.Base;
@@ -14,10 +15,10 @@ public class NetServer : INetServer
     private CancellationTokenSource CancellationToken { get; set; }
     private Socket ServerSocket { get; }
     private IOptions<ServerSettings> Options { get; }
-    private NetConnectionFactory ConnectionFactory { get; }
+    private ConnectionFactory ConnectionFactory { get; }
     private List<NetConnection> Connections { get; }
 
-    public NetServer(ILogger<NetServer> logger, IOptions<ServerSettings> options, NetConnectionFactory connectionFactory)
+    public NetServer(ILogger<NetServer> logger, IOptions<ServerSettings> options, ConnectionFactory connectionFactory)
     {
         Logger = logger;
         CancellationToken = new CancellationTokenSource();
@@ -64,6 +65,6 @@ public class NetServer : INetServer
             return;
 
         NetConnection connection = ConnectionFactory.Create(client);
-        await connection.Start();
+        connection.Start();
     }
 }

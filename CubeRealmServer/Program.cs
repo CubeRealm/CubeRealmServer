@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using CubeRealm.Network.Base;
+using CubeRealm.Network.Base.PacketsBase;
 using CubeRealm.Network.Packets;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Configuration;
@@ -57,7 +58,8 @@ class Program
             .AddSingleton<IPluginActivator, PluginActivator>()
             .AddSingleton<IMinecraftServer, MinecraftServer>()
             .AddSingleton<INetServer, NetServer>()
-            .AddTransient<NetConnectionFactory>()
+            .AddTransient<ConnectionFactory>()
+            .AddTransient<PacketHandlerFactory>()
             .AddTransient<IPacketFactory, PacketFactory>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;

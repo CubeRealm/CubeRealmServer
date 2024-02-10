@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.ObjectModel;
-using System.Data;
-using CubeRealm.Network.Packets.Packets.Play.ToClient;
-using NetworkAPI.Protocol;
+using CubeRealm.Network.Packets;
 using ConnectionState = Network.ConnectionState;
 
-namespace CubeRealm.Network.Packets;
+namespace CubeRealm.Network.Base.PacketsBase;
 
 public class PacketsDictionary
 {

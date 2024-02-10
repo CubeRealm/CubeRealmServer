@@ -1,7 +1,12 @@
+using CubeRealm.Network.Base.PacketsBase.Packets;
+using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToBoth;
+using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
+using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;
+using CubeRealm.Network.Packets;
 using Network;
 using NetworkAPI;
 
-namespace CubeRealm.Network.Packets;
+namespace CubeRealm.Network.Base.PacketsBase;
 
 public class PacketFactory : IPacketFactory
 {
