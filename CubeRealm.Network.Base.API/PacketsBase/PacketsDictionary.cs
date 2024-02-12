@@ -1,6 +1,54 @@
-namespace CubeRealm.Network.Base.API.PacketsBase;
+using System.Collections.ObjectModel;
+using CubeRealm.Network.Base.API.PacketsBase;
+using ConnectionState = CubeRealm.Network.Base.API.ConnectionState;
 
-public interface IPacketsDictionary
+namespace CubeRealm.Network.Base.PacketsBase;
+
+public class PacketsDictionary
 {
-    IList<IPacket> GetByConnectionState(ConnectionState state);
+    private readonly IList<IPacket> _handshake = [];
+    private readonly IList<IPacket> _status = [];
+    private readonly IList<IPacket> _login = [];
+    private readonly IList<IPacket> _play = [];
+
+    public IList<IPacket> GetByConnectionState(ConnectionState state)
+    {
+        switch (state)
+        {
+            case ConnectionState.Handshake:
+                return Handshake;
+            case ConnectionState.Status:
+                return Status;
+            case ConnectionState.Login:
+                return Login;
+            case ConnectionState.Play:
+                return Play;
+        }
+
+        throw new Exception("What?");
+    }
+    
+    public IList<IPacket> Handshake
+    {
+        get => _handshake;
+        init => _handshake = new ReadOnlyCollection<IPacket>(value);
+    }
+
+    public IList<IPacket> Status
+    {
+        get => _status;
+        init => _status = new ReadOnlyCollection<IPacket>(value);
+    }
+    
+    public IList<IPacket> Login
+    {
+        get => _login;
+        init => _login = new ReadOnlyCollection<IPacket>(value);
+    }
+    
+    public IList<IPacket> Play
+    {
+        get => _play;
+        init => _play = new ReadOnlyCollection<IPacket>(value);
+    }
 }

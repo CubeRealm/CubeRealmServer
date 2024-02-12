@@ -4,6 +4,7 @@ using CubeRealm.Network.Base.PacketsBase.Packets;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToBoth;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;
+using CubeRealmServer.API;
 using Network;
 using NetworkAPI;
 
@@ -39,6 +40,19 @@ public class PacketFactory : IPacketFactory //TODO Rewrite
             { 765, toClient }
         };
         
+    }
+
+    internal void AddPackets()
+    {
+        List<IProtocolVersion> protocolVersions = 
+            ModulesLoader.FromFile<IProtocolVersion>("CubeRealm.Network.Version765.dll")
+                .Select(type => (IProtocolVersion) Activator.CreateInstance(type)!)
+                .ToList();
+        foreach (var protocol in protocolVersions)
+        {
+            PacketsToServer.Add(protocol.Version, protocol.AllToServerPackets);
+            PacketsToClient.Add(protocol.Version, protocol.AllToClientPackets);
+        }
     }
     
     public T GetToClient<T>(ConnectionState connectionState, int packetId, int version) where T : IPacket

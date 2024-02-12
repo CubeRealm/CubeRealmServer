@@ -21,16 +21,16 @@ internal class NetConnection : INetConnection
 {
     public bool IsConnected { get; private set; }
     
-    private bool CompressionEnabled { get; set; }
-    private ConnectionState ConnectionState { get; set; }
-    private int Version { get; set; }
+    public bool CompressionEnabled { get; private set; }
+    public ConnectionState ConnectionState { get; private set; }
+    public int Version { get; private set; }
 
     private BlockingCollection<IPacket> PacketsQueue { get; } = new ();
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
     private PacketHandlerFactory PacketHandlerFactory { get; set; }
-    private PacketHandler PacketHandler { get; set; }
+    private IPacketHandler PacketHandler { get; set; }
     private IMinecraftServer MinecraftServer { get; }
     private CancellationTokenSource CancellationToken { get; }
     private Task WriteStream { get; }
@@ -193,8 +193,9 @@ internal class NetConnection : INetConnection
                 }
                 if (handshake.NextState == 2)
                 {
-                    PacketHandler = PacketHandlerFactory.Create(Version, pack => PacketsQueue.Add(pack));
+                    PacketHandler = PacketHandlerFactory.Create(Version, PacketsQueue.Add);
                     ConnectionState = ConnectionState.Login;
+                    PacketHandler.ChangeStateTo(ConnectionState);
                 }
             }
 

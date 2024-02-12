@@ -1,11 +1,10 @@
 using CubeRealm.Network.Base.API.PacketsBase;
-using Microsoft.Extensions.Logging;
 
 namespace CubeRealm.Network.Base.API;
 
-public abstract class PacketHandler(ILogger<PacketHandler> logger, IPacketFactory packetFactory, Action<IPacket> packetSender)
+public interface IPacketHandler
 {
-    public abstract event EventHandler<System.Data.ConnectionState>? NewState;
-    public abstract void HandlePacket(IPacket packet);
-    public abstract void StartLogin();
+    event EventHandler<ConnectionState>? NewState;
+    void HandlePacket(IPacket packet);
+    void ChangeStateTo(ConnectionState connectionState);
 }

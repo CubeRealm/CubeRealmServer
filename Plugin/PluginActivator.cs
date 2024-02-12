@@ -74,6 +74,7 @@ public class PluginActivator : IPluginActivator
             try
             {
                 plugin.Enable();
+                Logger.LogInformation("Plugin {} enabled", plugin.GetType().Name);
             }
             catch (Exception e)
             {
