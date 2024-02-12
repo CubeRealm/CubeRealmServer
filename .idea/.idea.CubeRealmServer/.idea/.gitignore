@@ -27,3 +27,6 @@
 /NetworkAPI/obj/
 /NetworkAPI/bin/*
 /NetworkAPI/obj/*
+
+/CubeRealmTesting/
+/CubeRealmTesting/*
