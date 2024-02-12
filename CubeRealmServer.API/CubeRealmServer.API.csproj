@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Network.API\Network.API.csproj" />
+      <ProjectReference Include="..\CubeRealm.Network.Base.API\CubeRealm.Network.Base.API.csproj" />
       <ProjectReference Include="..\Plugin.API\Plugin.API.csproj" />
     </ItemGroup>
 

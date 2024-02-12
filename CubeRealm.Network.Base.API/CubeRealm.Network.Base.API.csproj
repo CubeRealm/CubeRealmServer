@@ -4,10 +4,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>CubeRealm.Network.Base.API</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Iconic.Zlib.Netstandard" Version="1.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
@@ -29,13 +29,6 @@
 
     <ItemGroup>
       <Folder Include="bin\Debug\net8.0\" />
-      <Folder Include="Connection\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\CubeRealm.Network.Packets\CubeRealm.Network.Packets.csproj" />
-      <ProjectReference Include="..\CubeRealmServer.API\CubeRealmServer.API.csproj" />
-      <ProjectReference Include="..\Network.API\Network.API.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Network;
+namespace CubeRealm.Network.Base.API;
 
 public enum ConnectionState
 {

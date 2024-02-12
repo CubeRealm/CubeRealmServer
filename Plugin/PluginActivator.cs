@@ -32,12 +32,13 @@ public class PluginActivator : IPluginActivator
     public static void AddFromDirectory(ref List<Type> list, string directory)
     {
         foreach (string file in Directory.GetFiles(directory, "*.dll"))
-            if (AddFromFile(file, out Type type))
+            if (AddFromFile(Path.GetFullPath(file), out Type type))
                 list.Add(type);
     }
     
     public static bool AddFromFile(string fileName, out Type type)
     {
+        Console.WriteLine(fileName);
         Assembly asm = Assembly.LoadFrom(fileName);
 
         type = null!;

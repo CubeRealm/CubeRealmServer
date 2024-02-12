@@ -1,6 +1,4 @@
-using System.Net;
-
-namespace NetworkAPI;
+namespace CubeRealm.Network.Base.API;
 
 public class NetworkSettings
 {

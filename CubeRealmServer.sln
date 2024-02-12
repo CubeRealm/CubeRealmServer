@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRealmServer", "CubeRealmServer\CubeRealmServer.csproj", "{D65362FD-2954-42A3-A65E-6FB545B7C938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network.API", "Network.API\Network.API.csproj", "{C99D6F62-9FEC-476C-A856-C2F2620D3BB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRealm.Network.Base.API", "CubeRealm.Network.Base.API\CubeRealm.Network.Base.API.csproj", "{C99D6F62-9FEC-476C-A856-C2F2620D3BB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.API", "Plugin.API\Plugin.API.csproj", "{263993B3-5E86-4D51-925D-4A95B3CF924F}"
 EndProject

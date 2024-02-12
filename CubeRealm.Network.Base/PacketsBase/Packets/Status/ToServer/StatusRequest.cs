@@ -1,4 +1,4 @@
-using CubeRealm.Network.Packets;
+using CubeRealm.Network.Base.API.PacketsBase;
 using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;

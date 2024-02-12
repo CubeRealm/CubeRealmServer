@@ -1,14 +1,15 @@
+using CubeRealm.Network.Base.API;
+using CubeRealm.Network.Base.API.PacketsBase;
 using CubeRealm.Network.Base.PacketsBase.Packets;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToBoth;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;
-using CubeRealm.Network.Packets;
 using Network;
 using NetworkAPI;
 
 namespace CubeRealm.Network.Base.PacketsBase;
 
-public class PacketFactory : IPacketFactory
+public class PacketFactory : IPacketFactory //TODO Rewrite
 {
     //<version, Packet>
     private IDictionary<int, PacketsDictionary> PacketsToServer { get; }

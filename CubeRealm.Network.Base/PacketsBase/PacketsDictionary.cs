@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
-using CubeRealm.Network.Packets;
-using ConnectionState = Network.ConnectionState;
+using CubeRealm.Network.Base.API.PacketsBase;
+using ConnectionState = CubeRealm.Network.Base.API.ConnectionState;
 
 namespace CubeRealm.Network.Base.PacketsBase;
 
-public class PacketsDictionary
+public class PacketsDictionary : IPacketsDictionary
 {
     private IList<IPacket> _handshake = [];
     private IList<IPacket> _status = [];

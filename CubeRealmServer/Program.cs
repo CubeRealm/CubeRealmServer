@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using CubeRealm.Network.Base;
+using CubeRealm.Network.Base.API;
 using CubeRealm.Network.Base.PacketsBase;
-using CubeRealm.Network.Packets;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

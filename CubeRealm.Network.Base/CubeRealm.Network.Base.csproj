@@ -13,7 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CubeRealmServer.API\CubeRealmServer.API.csproj" />
-      <ProjectReference Include="..\Network.API\Network.API.csproj" />
+      <ProjectReference Include="..\CubeRealm.Network.Base.API\CubeRealm.Network.Base.API.csproj" />
     </ItemGroup>
 
 </Project>

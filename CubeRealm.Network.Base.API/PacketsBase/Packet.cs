@@ -1,6 +1,6 @@
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealm.Network.Packets;
+namespace CubeRealm.Network.Base.API.PacketsBase;
 
 public abstract class Packet<T> : IPacket where T : Packet<T>, new()
 {

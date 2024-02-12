@@ -1,7 +1,7 @@
-using CubeRealm.Network.Packets;
+using CubeRealm.Network.Base.API.PacketsBase;
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealmProtocol.Version765.Login.ToServer;
+namespace CubeRealm.Network.Version765.Packets.Login.ToServer;
 
 public class LoginPluginResponse : Packet<LoginPluginResponse>, IToServer
 {
