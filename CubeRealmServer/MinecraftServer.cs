@@ -70,6 +70,7 @@ public class MinecraftServer : IHostedService, IMinecraftServer
             PluginActivator = pluginActivator = ServiceProvider.GetOriginalService<IPluginActivator, PluginActivator>();
             
             pluginActivator.Activate();
+            pluginActivator.Action("Plugin {} loaded", plugin => plugin.Load());
             Logger.LogInformation("Activated");
         }, cancellationToken);
 
@@ -89,7 +90,7 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         Task.WaitAll();
         
         Logger.LogInformation("Enabling plugins");
-        pluginActivator!.Enable();
+        pluginActivator!.Action("Plugin {} enabled", plugin => plugin.Enable());
         Logger.LogInformation("Enabled plugins");
     }
 

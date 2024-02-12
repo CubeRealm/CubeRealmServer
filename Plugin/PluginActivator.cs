@@ -66,15 +66,15 @@ public class PluginActivator : IPluginActivator
             }
         }
     }
-
-    public void Enable()
+    
+    public void Action(string actionTemplate, Action<IPlugin> action)
     {
         foreach (var plugin in Plugins)
         {
             try
             {
-                plugin.Enable();
-                Logger.LogInformation("Plugin {} enabled", plugin.GetType().Name);
+                action(plugin);
+                Logger.LogInformation(actionTemplate, plugin.GetType().Name);
             }
             catch (Exception e)
             {
