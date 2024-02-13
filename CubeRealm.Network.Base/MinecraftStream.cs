@@ -14,7 +14,7 @@ public class MinecraftStream : Stream, IMinecraftStream
     private const int SEGMENT_BITS = 0x7F;
     private const int CONTINUE_BIT = 0x80;
 
-    private CancellationTokenSource CancelationToken => new CancellationTokenSource();
+    private CancellationTokenSource CancelationToken => new();
 
     public MinecraftStream(Stream baseStream)
     {

@@ -42,7 +42,7 @@ public class PacketFactory : IPacketFactory //TODO Rewrite
         
     }
 
-    internal void AddPackets()
+    public void AddPackets()
     {
         List<IProtocolVersion> protocolVersions = 
             ModulesLoader.FromFile<IProtocolVersion>("CubeRealm.Network.Version765.dll")
@@ -50,8 +50,12 @@ public class PacketFactory : IPacketFactory //TODO Rewrite
                 .ToList();
         foreach (var protocol in protocolVersions)
         {
-            PacketsToServer.Add(protocol.Version, protocol.AllToServerPackets);
-            PacketsToClient.Add(protocol.Version, protocol.AllToClientPackets);
+            PacketsDictionary toServer = protocol.AllToServerPackets + PacketsToServer[protocol.Version];
+            PacketsToServer.Remove(protocol.Version);
+            PacketsToServer.Add(protocol.Version, toServer);
+            PacketsDictionary toClient = protocol.AllToClientPackets + PacketsToClient[protocol.Version];
+            PacketsToClient.Remove(protocol.Version);
+            PacketsToClient.Add(protocol.Version, toClient);
         }
     }
     

@@ -79,6 +79,11 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         
         await Task.Run(() =>
         {
+            PacketFactory packetFactory = ServiceProvider.GetOriginalService<IPacketFactory, PacketFactory>();
+            packetFactory.AddPackets();
+            
+            ServiceProvider.GetRequiredService<PacketHandlerFactory>();
+            
             NetServer netServer;
             Network = netServer = ServiceProvider.GetOriginalService<INetServer, NetServer>();
             

@@ -59,8 +59,8 @@ class Program
             .AddSingleton<IMinecraftServer, MinecraftServer>()
             .AddSingleton<INetServer, NetServer>()
             .AddSingleton<IPacketFactory, PacketFactory>()
-            .AddTransient<ConnectionFactory>()
-            .AddTransient<PacketHandlerFactory>();
+            .AddSingleton<ConnectionFactory>()
+            .AddSingleton<PacketHandlerFactory>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();

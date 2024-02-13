@@ -12,7 +12,7 @@ public class ModulesLoader
     {
         Assembly asm = Assembly.LoadFrom(fileName);
         List<Type> modules = new();
-        
+
         foreach (Type unknownType in asm.GetExportedTypes())
         {
             if (unknownType.IsAssignableTo(typeof(T)))

@@ -1,5 +1,3 @@
-using CubeRealm.Network.Base.PacketsBase;
-
 namespace CubeRealm.Network.Base.API.PacketsBase;
 
 public interface IProtocolVersion

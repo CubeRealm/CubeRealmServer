@@ -1,5 +1,8 @@
 using CubeRealm.Network.Base.API;
 using CubeRealm.Network.Base.API.PacketsBase;
+using CubeRealm.Network.Version765.Packets.Configuration.ToClient;
+using CubeRealm.Network.Version765.Packets.Login.ToClient;
+using CubeRealm.Network.Version765.Packets.Login.ToServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -14,7 +17,27 @@ public class PacketHandlerV765(IServiceProvider serviceProvider, Action<IPacket>
 
     public void HandlePacket(IPacket packet)   
     {
-        
+        Logger.LogDebug("Handle packet {}", packet.GetType().Name);
+        if (packet is LoginStart loginStart)
+        {
+            Logger.LogInformation("Start login player {}", loginStart.Name);
+            sendPacket(new LoginSuccess
+            {
+                Username = loginStart.Name,
+                UUID = loginStart.PlayerUUID
+            });
+        }
+        if (packet is LoginAcknowledged loginAcknowledged)
+        {
+            Logger.LogInformation("Configure player");
+            NewState?.Invoke(this, ConnectionState.Configuration);
+            sendPacket(new FinishConfiguration());
+        }
+        if (packet is FinishConfiguration configuration)
+        {
+            Logger.LogInformation("Configure player");
+            NewState?.Invoke(this, ConnectionState.Play);
+        }
     }
 
     public void ChangeStateTo(ConnectionState connectionState)

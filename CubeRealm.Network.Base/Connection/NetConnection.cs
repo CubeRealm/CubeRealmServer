@@ -196,6 +196,7 @@ internal class NetConnection : INetConnection
                     PacketHandler = PacketHandlerFactory.Create(Version, PacketsQueue.Add);
                     ConnectionState = ConnectionState.Login;
                     PacketHandler.ChangeStateTo(ConnectionState);
+                    Logger.LogDebug("Change state to login!");
                 }
             }
 
