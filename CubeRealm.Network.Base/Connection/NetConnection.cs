@@ -29,7 +29,7 @@ internal class NetConnection : INetConnection
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
-    private PacketHandlerFactory PacketHandlerFactory { get; set; }
+    private ParentPacketHandlerFactory PacketHandlerFactory { get; set; }
     private IPacketHandler PacketHandler { get; set; }
     private IMinecraftServer MinecraftServer { get; }
     private CancellationTokenSource CancellationToken { get; }
@@ -37,7 +37,7 @@ internal class NetConnection : INetConnection
     private Task ReadStream { get; }
     private PacketFactory PacketFactory { get; }
     
-    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, PacketHandlerFactory packetHandlerFactory, IMinecraftServer server, Socket socket)
+    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, ParentPacketHandlerFactory packetHandlerFactory, IMinecraftServer server, Socket socket)
     {
         Logger = logger;
         Socket = socket;

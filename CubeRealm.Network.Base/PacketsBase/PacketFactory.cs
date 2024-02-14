@@ -44,10 +44,7 @@ public class PacketFactory : IPacketFactory //TODO Rewrite
 
     public void AddPackets()
     {
-        List<IProtocolVersion> protocolVersions = 
-            ModulesLoader.FromFile<IProtocolVersion>("CubeRealm.Network.Version765.dll")
-                .Select(type => (IProtocolVersion) Activator.CreateInstance(type)!)
-                .ToList();
+        ICollection<IProtocolInformation> protocolVersions = NetServer.Load().Values;
         foreach (var protocol in protocolVersions)
         {
             PacketsDictionary toServer = protocol.AllToServerPackets + PacketsToServer[protocol.Version];

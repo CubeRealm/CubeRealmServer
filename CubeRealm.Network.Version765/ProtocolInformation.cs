@@ -1,3 +1,4 @@
+using CubeRealm.Network.Base.API;
 using CubeRealm.Network.Base.API.PacketsBase;
 using CubeRealm.Network.Version765.Packets.Configuration.ToClient;
 using CubeRealm.Network.Version765.Packets.Login.ToClient;
@@ -6,7 +7,7 @@ using EncryptionBegin = CubeRealm.Network.Version765.Packets.Login.ToClient.Encr
 
 namespace CubeRealm.Network.Version765;
 
-public class ProtocolVersion : IProtocolVersion
+public class ProtocolInformation : IProtocolInformation
 {
     public int Version => 765;
 
@@ -21,4 +22,9 @@ public class ProtocolVersion : IProtocolVersion
         Login = [new Packets.Login.ToServer.EncryptionBegin(), new LoginAcknowledged(), new LoginPluginResponse()],
         Configuration = [new FinishConfiguration()]
     };
+    
+    public IPacketHandler CreatePacketHandler(IServiceProvider serviceProvider, Action<IPacket> sendPacket)
+    {
+        return new PacketHandlerV765(serviceProvider, sendPacket);
+    }
 }

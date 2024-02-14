@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System.Collections.ObjectModel;
+using System.Net;
 using System.Net.Sockets;
 using CubeRealm.Network.Base.API;
+using CubeRealm.Network.Base.API.PacketsBase;
 using CubeRealm.Network.Base.Connection;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Logging;
@@ -67,5 +69,26 @@ public class NetServer : INetServer
 
         NetConnection connection = ConnectionFactory.Create(client);
         connection.Start();
+    }
+    
+    public static IDictionary<int, IProtocolInformation> Load()
+    {
+        string dir = AppContext.BaseDirectory;
+        string pattern = "CubeRealm.Network.Version*.dll";
+        List<object> protocols = new();
+        Directory
+            .GetFiles(dir, pattern)
+            .ToList()
+            .ForEach(file =>
+                ModulesLoader.FromFile<IProtocolInformation>(file)
+                    .ForEach(type => protocols.Add(Activator.CreateInstance(type))));
+        
+        return new ReadOnlyDictionary<int, IProtocolInformation>(
+            new Dictionary<int, IProtocolInformation>(
+                protocols
+                    .Select(item => (IProtocolInformation)item)
+                    .Select(item => new KeyValuePair<int, IProtocolInformation>(item.Version, item))
+            )
+        );
     }
 }

@@ -8,7 +8,7 @@ using NetworkAPI;
 
 namespace CubeRealm.Network.Base;
 
-public class ConnectionFactory(ILoggerFactory loggerFactory, IPacketFactory packetFactory, PacketHandlerFactory packetHandlerFactory, IMinecraftServer server)
+public class ConnectionFactory(ILoggerFactory loggerFactory, IPacketFactory packetFactory, ParentPacketHandlerFactory packetHandlerFactory, IMinecraftServer server)
 {
     internal NetConnection Create(Socket socket)
     {

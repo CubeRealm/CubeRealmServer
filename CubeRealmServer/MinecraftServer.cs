@@ -82,7 +82,7 @@ public class MinecraftServer : IHostedService, IMinecraftServer
             PacketFactory packetFactory = ServiceProvider.GetOriginalService<IPacketFactory, PacketFactory>();
             packetFactory.AddPackets();
             
-            ServiceProvider.GetRequiredService<PacketHandlerFactory>();
+            ServiceProvider.GetRequiredService<ParentPacketHandlerFactory>();
             
             NetServer netServer;
             Network = netServer = ServiceProvider.GetOriginalService<INetServer, NetServer>();

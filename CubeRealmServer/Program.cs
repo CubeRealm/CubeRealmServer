@@ -60,7 +60,7 @@ class Program
             .AddSingleton<INetServer, NetServer>()
             .AddSingleton<IPacketFactory, PacketFactory>()
             .AddSingleton<ConnectionFactory>()
-            .AddSingleton<PacketHandlerFactory>();
+            .AddSingleton<ParentPacketHandlerFactory>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();
