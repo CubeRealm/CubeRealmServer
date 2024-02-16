@@ -33,9 +33,18 @@ public class PacketHandlerV765(IServiceProvider serviceProvider, Action<IPacket>
             NewState?.Invoke(this, ConnectionState.Configuration);
             sendPacket(new FinishConfiguration());
         }
+        if (packet is LoginPluginResponse loginPluginRequest)
+        {
+            sendPacket(new LoginPluginRequest()
+            {
+                MessageId = 0,
+                Channel = "minecraft",
+                Data = loginPluginRequest.Data
+            });
+        }
         if (packet is FinishConfiguration configuration)
         {
-            Logger.LogInformation("Configure player");
+            Logger.LogInformation("Configure player end");
             NewState?.Invoke(this, ConnectionState.Play);
         }
     }

@@ -29,7 +29,7 @@ internal class NetConnection : INetConnection
     
     private ILogger<NetConnection> Logger { get; }
     private Socket Socket { get; }
-    private ParentPacketHandlerFactory PacketHandlerFactory { get; set; }
+    private NetServerPacketHandlerFactory PacketHandlerFactory { get; set; }
     private IPacketHandler PacketHandler { get; set; }
     private IMinecraftServer MinecraftServer { get; }
     private CancellationTokenSource CancellationToken { get; }
@@ -37,7 +37,7 @@ internal class NetConnection : INetConnection
     private Task ReadStream { get; }
     private PacketFactory PacketFactory { get; }
     
-    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, ParentPacketHandlerFactory packetHandlerFactory, IMinecraftServer server, Socket socket)
+    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, NetServerPacketHandlerFactory packetHandlerFactory, IMinecraftServer server, Socket socket)
     {
         Logger = logger;
         Socket = socket;
@@ -81,7 +81,7 @@ internal class NetConnection : INetConnection
                 IPacket packet;
                 while ((packet = PacketsQueue.Take()) != null && !CancellationToken.IsCancellationRequested)
                 {
-                    Logger.LogTrace("Sending packet {}", packet.GetType().Name);
+                    Logger.LogTrace(">> Sending packet {}", packet.GetType().Name);
                     MinecraftStream fakeMcStream = new MinecraftStream(new MemoryStream());
                     fakeMcStream.WriteVarInt(packet.PacketId);
                     packet.Write(fakeMcStream);
@@ -112,8 +112,8 @@ internal class NetConnection : INetConnection
                         {
                             var length = minecraftStream.ReadVarInt();
                             packetId = minecraftStream.ReadVarInt(out var packetIdLength);
-                            Logger.LogTrace($"packetId {packetId:x2}");
-                            Logger.LogTrace("length - packetIdLength = {}", length - packetIdLength);
+                            //Logger.LogTrace($"packetId {packetId:x2}");
+                            //Logger.LogTrace("length - packetIdLength = {}", length - packetIdLength);
                             if (length - packetIdLength > 0)
                             {
                                 packetData = minecraftStream.Read(length - packetIdLength);
@@ -146,6 +146,7 @@ internal class NetConnection : INetConnection
                                 }
                             }
                         }
+                        Logger.LogInformation($"Try read packet 0x{packetId:x2} (pre_handle)");
                         packet = PacketFactory.GetToServer<IPacket>(ConnectionState, packetId, Version);
                         if (packet == null)
                         {

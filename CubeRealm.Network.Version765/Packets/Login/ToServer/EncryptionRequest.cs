@@ -3,7 +3,7 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Version765.Packets.Login.ToServer;
 
-public class EncryptionBegin : Packet<EncryptionBegin>, IToServer
+public class EncryptionResponse : Packet<EncryptionResponse>, IToServer
 {
     public override int PacketId => 0x01;
 

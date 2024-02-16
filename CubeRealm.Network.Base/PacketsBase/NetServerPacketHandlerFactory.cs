@@ -5,7 +5,7 @@ using CubeRealmServer.API;
 
 namespace CubeRealm.Network.Base.PacketsBase;
 
-public class ParentPacketHandlerFactory(IServiceProvider serviceProvider)
+public class NetServerPacketHandlerFactory(IServiceProvider serviceProvider)
 {
     private IServiceProvider ServiceProvider { get; } = serviceProvider;
     
@@ -13,7 +13,6 @@ public class ParentPacketHandlerFactory(IServiceProvider serviceProvider)
         
     internal IPacketHandler Create(int version, Action<IPacket> packetSender)
     {
-        
         return Factories[version].CreatePacketHandler(ServiceProvider, packetSender);
     }
 }
