@@ -2,6 +2,7 @@ using System.Reflection;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Plugin.Exceptions;
 using PluginAPI;
 
 namespace Plugin;
@@ -66,20 +67,54 @@ public class PluginActivator : IPluginActivator
             }
         }
     }
+
+    public void SortPlugins()
+    {
+        List<IPlugin> plugins = Plugins;
+
+        foreach (IPlugin plugin in plugins)
+        {
+            
+        }
+    }
+
+    public List<IPlugin> GetUsings(List<IPlugin> plugins, IPlugin plugin)
+    {
+        List<IPlugin> usings = new List<IPlugin>();
+
+        foreach (IPlugin plugin1 in plugins)
+        {
+            if(plugin1.Dependencies.Contains(plugin.Name)) usings.Add(plugin1);
+        }
+
+        return usings;
+    }
     
     public void Action(string actionTemplate, Action<IPlugin> action)
     {
-        foreach (var plugin in Plugins)
+        
+        foreach (IPlugin plugin in Plugins)
         {
             try
             {
                 action(plugin);
-                Logger.LogInformation(actionTemplate, plugin.GetType().Name);
+                
+                Logger.LogInformation(actionTemplate, plugin.Name + "-" + plugin.Version);
             }
             catch (Exception e)
             {
                 Logger.LogError("Plugin enable exception: {}", e);
             }
         }
+    }
+
+    public IPlugin? GetPluginByName(string name)
+    {
+        foreach (IPlugin plugin in Plugins)
+        {
+            if (plugin.Name == name) return plugin;
+        }
+
+        return null;
     }
 }

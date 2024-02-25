@@ -13,6 +13,8 @@
       <ProjectReference Include="..\CubeRealm.Network.Base.API\CubeRealm.Network.Base.API.csproj" />
       <ProjectReference Include="..\Plugin.API\Plugin.API.csproj" />
       <ProjectReference Include="..\Plugin\Plugin.csproj" />
+      <ProjectReference Include="..\World.API\World.API.csproj" />
+      <ProjectReference Include="..\World\World.csproj" />
     </ItemGroup>
 
     <ItemGroup>
