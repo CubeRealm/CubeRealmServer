@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CubeRealm.Network.Version765\CubeRealm.Network.Version765.csproj" />
+    </ItemGroup>
+
 </Project>
