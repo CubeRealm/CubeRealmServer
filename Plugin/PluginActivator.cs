@@ -67,28 +67,6 @@ public class PluginActivator : IPluginActivator
             }
         }
     }
-
-    public void SortPlugins()
-    {
-        List<IPlugin> plugins = Plugins;
-
-        foreach (IPlugin plugin in plugins)
-        {
-            
-        }
-    }
-
-    public List<IPlugin> GetUsings(List<IPlugin> plugins, IPlugin plugin)
-    {
-        List<IPlugin> usings = new List<IPlugin>();
-
-        foreach (IPlugin plugin1 in plugins)
-        {
-            if(plugin1.Dependencies.Contains(plugin.Name)) usings.Add(plugin1);
-        }
-
-        return usings;
-    }
     
     public void Action(string actionTemplate, Action<IPlugin> action)
     {
@@ -99,7 +77,7 @@ public class PluginActivator : IPluginActivator
             {
                 action(plugin);
                 
-                Logger.LogInformation(actionTemplate, plugin.Name + "-" + plugin.Version);
+                Logger.LogInformation(actionTemplate, plugin.Name + "-" + plugin.Version + " Authors: " + String.Join(",", plugin.Authors.Select(p => p.ToString()).ToArray()));
             }
             catch (Exception e)
             {
