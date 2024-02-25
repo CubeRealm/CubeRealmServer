@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World", "World\World.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World.API", "World.API\World.API.csproj", "{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameContent", "GameContent\GameContent.csproj", "{7765216F-51DE-4AD9-82F9-47EF556A7664}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRealm.Network.Base", "CubeRealm.Network.Base\CubeRealm.Network.Base.csproj", "{42193C98-5B0D-4D91-BB7A-20F403D47967}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRealm.Network.Version765", "CubeRealm.Network.Version765\CubeRealm.Network.Version765.csproj", "{A6DEA795-668E-41B5-87CF-2798E6D423C4}"
@@ -54,10 +52,6 @@ Global
 		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1C753D2-0DB8-47C1-A033-2E0EBAF05535}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7765216F-51DE-4AD9-82F9-47EF556A7664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7765216F-51DE-4AD9-82F9-47EF556A7664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7765216F-51DE-4AD9-82F9-47EF556A7664}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7765216F-51DE-4AD9-82F9-47EF556A7664}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42193C98-5B0D-4D91-BB7A-20F403D47967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42193C98-5B0D-4D91-BB7A-20F403D47967}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42193C98-5B0D-4D91-BB7A-20F403D47967}.Release|Any CPU.ActiveCfg = Release|Any CPU
