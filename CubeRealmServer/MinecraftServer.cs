@@ -5,6 +5,7 @@ using CubeRealmServer.API;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Network;
 using NetworkAPI;
 using Newtonsoft.Json;
@@ -21,6 +22,7 @@ public class MinecraftServer : IHostedService, IMinecraftServer
     private IServiceProvider ServiceProvider { get; }
     public INetServer Network { get; private set; }
     public IPluginActivator PluginActivator { get; private set; }
+    public IOptions<ServerSettings> Options { get; }
 
     public Motd Status
     {
@@ -30,26 +32,27 @@ public class MinecraftServer : IHostedService, IMinecraftServer
 
     public string CachedStatus { get; private set; }
 
-    public MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider serviceProvider)
+    public MinecraftServer(ILogger<MinecraftServer> logger, IServiceProvider serviceProvider, IOptions<ServerSettings> options)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
+        Options = options;
         
         Status = new()
         {
             Version = new Motd.VersionPart
             {
                 Name = "1.20.4",
-                Protocol = 765
+                Protocol = Options.Value.General.VersionProtocol
             },
             Players = new Motd.PlayersPart
             {
-                Max = int.MaxValue,
-                Online = int.MaxValue
+                Max = Options.Value.General.MaxPlayers,
+                Online = 0
             },
             Description = new Motd.DescriptionPart
             {
-                Text = "MDK"
+                Text = Options.Value.General.Motd
             },
             Icon = "",
             PreviewsChat = false,
