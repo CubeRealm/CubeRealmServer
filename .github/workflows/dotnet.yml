@@ -25,15 +25,6 @@ jobs:
     - name: Build
       run: |
         dotnet build --no-restore
-        dotnet publish -c Release -o ../dotnet_publish -r linux-x64 --self-contained true /p:UseAppHost=true
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Dotnet Publish
-      uses: EasyDesk/action-dotnet-publish@v1.0.0
-      with:
-        # Path to the project to publish.
-        path: .
-        output-dir: out
-        build-configuration: Release
-        skip-build: false
           
