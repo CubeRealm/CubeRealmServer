@@ -10,9 +10,10 @@ public interface IWorld
     
     IChunk[,] Chunks { get; set; }
     string WorldName { get; set; }
-
+    IWorldGenerator Generator { get; set; }
 
     void GenerateChunk(ChunkLocation location);
+    
     void SetBlock(IBlock block, Location location);
     void SetBlock(IItem block, Location location);
     void RemoveBlock(Location location);
