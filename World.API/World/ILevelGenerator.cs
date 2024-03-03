@@ -3,7 +3,7 @@ using World.API.Coords;
 
 namespace World.API.World;
 
-public interface IWorldGenerator
+public interface ILevelGenerator
 {
     long Seed { get; set; }
     

@@ -8,7 +8,7 @@ namespace World.API.World;
 /// <summary>
 /// Interface of the game world
 /// </summary>
-public interface IWorld
+public interface ILevel
 {
     
     /// <summary>
@@ -17,14 +17,9 @@ public interface IWorld
     IChunk[,] Chunks { get; set; }
     
     /// <summary>
-    /// Name of the world
-    /// </summary>
-    string WorldName { get; set; }
-    
-    /// <summary>
     /// Generator for world
     /// </summary>
-    IWorldGenerator Generator { get; set; }
+    ILevelGenerator Generator { get; set; }
 
     /// <summary>
     /// Generates chunk in specific location
