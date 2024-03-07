@@ -51,6 +51,7 @@ public class PacketHandlerV765(IServiceProvider serviceProvider, Action<IPacket>
 
     public void ChangeStateTo(ConnectionState connectionState)
     {
+        Logger.LogDebug("Change state to {}", connectionState);
         if (ConnectionState.Login == connectionState)
         {
             

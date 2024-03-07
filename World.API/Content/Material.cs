@@ -1,4 +1,4 @@
-namespace World.API.Data;
+namespace World.API.Content;
 
 public enum Material
 {

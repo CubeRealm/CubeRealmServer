@@ -13,13 +13,15 @@ public class ProtocolInformation : IProtocolInformation
     public PacketsDictionary AllToClientPackets { get; } = new()
     {
         Login = [new Disconnect(), new EncryptionRequest(), new LoginPluginRequest(), new SetCompression()],
-        Configuration = [new FinishConfiguration()]
+        Configuration = [new FinishConfiguration()],
+        Play = []
     };
 
     public PacketsDictionary AllToServerPackets { get; } = new()
     {
         Login = [new LoginStart(), new EncryptionResponse(), new LoginPluginResponse(), new LoginAcknowledged()],
-        Configuration = [new FinishConfiguration()]
+        Configuration = [new FinishConfiguration()],
+        Play = []
     };
     
     public IPacketHandler CreatePacketHandler(IServiceProvider serviceProvider, Action<IPacket> sendPacket)
