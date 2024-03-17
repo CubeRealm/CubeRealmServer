@@ -12,6 +12,8 @@ using Network;
 using NetworkAPI;
 using Plugin;
 using PluginAPI;
+using World;
+using World.API;
 
 namespace CubeRealmServer;
 
@@ -60,7 +62,8 @@ class Program
             .AddSingleton<INetServer, NetServer>()
             .AddSingleton<IPacketFactory, PacketFactory>()
             .AddSingleton<ConnectionFactory>()
-            .AddSingleton<NetServerPacketHandlerFactory>();
+            .AddSingleton<NetServerPacketHandlerFactory>()
+            .AddSingleton<IWorldManager, WorldManager>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();

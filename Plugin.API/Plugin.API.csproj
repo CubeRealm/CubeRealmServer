@@ -37,4 +37,8 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\World.API\World.API.csproj" />
+    </ItemGroup>
+
 </Project>

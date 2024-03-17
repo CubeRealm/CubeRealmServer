@@ -71,7 +71,7 @@ public class NetServer : INetServer
         connection.Start();
     }
     
-    public static IDictionary<int, IProtocolInformation> Load()
+    public static IDictionary<int, IProtocolInformation> LoadFactories()
     {
         string dir = AppContext.BaseDirectory;
         string pattern = "CubeRealm.Network.Version*.dll";

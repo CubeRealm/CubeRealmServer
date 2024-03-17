@@ -3,7 +3,7 @@ namespace World.API;
 public interface IWorldManager
 {
     
-    List<MinecraftWorld> Worlds { get; set; }
+    List<MinecraftWorld> Worlds { get; }
     MinecraftWorld? GetWorldByName(string name);
     
     void LoadAll();

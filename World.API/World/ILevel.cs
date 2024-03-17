@@ -14,12 +14,12 @@ public interface ILevel
     /// <summary>
     /// 2D array of chunks (x and z)
     /// </summary>
-    IChunk[,] Chunks { get; set; }
+    IChunk[,] Chunks { get; }
     
     /// <summary>
     /// Generator for world
     /// </summary>
-    ILevelGenerator Generator { get; set; }
+    ILevelGenerator Generator { get; }
 
     /// <summary>
     /// Generates chunk in specific location

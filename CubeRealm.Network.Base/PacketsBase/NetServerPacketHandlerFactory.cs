@@ -9,7 +9,7 @@ public class NetServerPacketHandlerFactory(IServiceProvider serviceProvider)
 {
     private IServiceProvider ServiceProvider { get; } = serviceProvider;
     
-    private IDictionary<int, IProtocolInformation> Factories { get; } = NetServer.Load();
+    private IDictionary<int, IProtocolInformation> Factories { get; } = NetServer.LoadFactories();
         
     internal IPacketHandler Create(int version, Action<IPacket> packetSender)
     {

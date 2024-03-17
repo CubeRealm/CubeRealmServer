@@ -4,7 +4,7 @@ namespace World;
 
 public class WorldManager : IWorldManager
 {
-    public List<MinecraftWorld> Worlds { get; set; }
+    public List<MinecraftWorld> Worlds { get; }
 
     public MinecraftWorld? GetWorldByName(string name)
     {
@@ -27,6 +27,11 @@ public class WorldManager : IWorldManager
         {
             
         }
+    }
+    
+    public async Task Load(MinecraftWorld world)
+    {
+        world.Load();
     }
 
     public void Load(string name)

@@ -10,7 +10,7 @@ using NetworkAPI;
 
 namespace CubeRealm.Network.Base.PacketsBase;
 
-public class PacketFactory : IPacketFactory //TODO Rewrite
+public class PacketFactory : IPacketFactory
 {
     //<version, Packet>
     private IDictionary<int, PacketsDictionary> PacketsToServer { get; }
@@ -41,10 +41,12 @@ public class PacketFactory : IPacketFactory //TODO Rewrite
         };
         
     }
+    
+    
 
     public void AddPackets()
     {
-        ICollection<IProtocolInformation> protocolVersions = NetServer.Load().Values;
+        ICollection<IProtocolInformation> protocolVersions = NetServer.LoadFactories().Values;
         foreach (var protocol in protocolVersions)
         {
             PacketsDictionary toServer = protocol.AllToServerPackets + PacketsToServer[protocol.Version];

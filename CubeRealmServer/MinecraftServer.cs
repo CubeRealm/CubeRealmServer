@@ -11,6 +11,8 @@ using NetworkAPI;
 using Newtonsoft.Json;
 using Plugin;
 using PluginAPI;
+using World;
+using World.API;
 
 namespace CubeRealmServer;
 
@@ -71,9 +73,16 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         await Task.Run(() =>
         {
             PluginActivator = pluginActivator = ServiceProvider.GetOriginalService<IPluginActivator, PluginActivator>();
+
+            WorldManager manager = ServiceProvider.GetOriginalService<IWorldManager, WorldManager>();
             
             pluginActivator.Activate();
-            pluginActivator.Action("Plugin {} loaded", plugin => plugin.Load());
+            pluginActivator.Action("Plugin {} loaded", plugin =>
+            {
+                plugin.Load();
+                if (plugin.DefaultWorld is {  } world)
+                    manager.Load(world);
+            });
             Logger.LogInformation("Activated");
         }, cancellationToken);
 
