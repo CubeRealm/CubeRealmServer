@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using Network;
 using NetworkAPI;
 using Plugin;
 using PluginAPI;
@@ -62,8 +61,7 @@ class Program
             .AddSingleton<INetServer, NetServer>()
             .AddSingleton<IPacketFactory, PacketFactory>()
             .AddSingleton<ConnectionFactory>()
-            .AddSingleton<NetServerPacketHandlerFactory>()
-            .AddSingleton<IWorldManager, WorldManager>();
+            .AddSingleton<IWorlds, Worlds>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();

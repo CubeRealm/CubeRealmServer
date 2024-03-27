@@ -10,8 +10,6 @@ using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;
 using CubeRealmServer.API;
 using Ionic.Zlib;
 using Microsoft.Extensions.Logging;
-using Network;
-using NetworkAPI;
 using CompressionLevel = Ionic.Zlib.CompressionLevel;
 using CompressionMode = Ionic.Zlib.CompressionMode;
 
@@ -23,13 +21,12 @@ internal class NetConnection : INetConnection
     
     public bool CompressionEnabled { get; private set; }
     public ConnectionState ConnectionState { get; private set; }
-    public int Version { get; private set; }
 
     private BlockingCollection<IPacket> PacketsQueue { get; } = new ();
     
     private ILogger<NetConnection> Logger { get; }
+    private IServiceProvider ServiceProvider { get; }
     private Socket Socket { get; }
-    private NetServerPacketHandlerFactory PacketHandlerFactory { get; set; }
     private IPacketHandler PacketHandler { get; set; }
     private IMinecraftServer MinecraftServer { get; }
     private CancellationTokenSource CancellationToken { get; }
@@ -37,9 +34,10 @@ internal class NetConnection : INetConnection
     private Task ReadStream { get; }
     private PacketFactory PacketFactory { get; }
     
-    internal NetConnection(ILogger<NetConnection> logger, PacketFactory packetFactory, NetServerPacketHandlerFactory packetHandlerFactory, IMinecraftServer server, Socket socket)
+    internal NetConnection(ILogger<NetConnection> logger, IServiceProvider serviceProvider, PacketFactory packetFactory, IMinecraftServer server, Socket socket)
     {
         Logger = logger;
+        ServiceProvider = serviceProvider;
         Socket = socket;
 
         CancellationToken = new CancellationTokenSource();
@@ -48,7 +46,6 @@ internal class NetConnection : INetConnection
         ReadStream = new Task(ReadFromStream);
         
         PacketFactory = packetFactory;
-        PacketHandlerFactory = packetHandlerFactory;
         MinecraftServer = server;
         
         ConnectionState = ConnectionState.Handshake;
@@ -147,7 +144,7 @@ internal class NetConnection : INetConnection
                             }
                         }
                         Logger.LogInformation($"Try read packet 0x{packetId:x2} (pre_handle)");
-                        packet = PacketFactory.GetToServer<IPacket>(ConnectionState, packetId, Version);
+                        packet = PacketFactory.GetToServer<IPacket>(ConnectionState, packetId);
                         if (packet == null)
                         {
                             Logger.LogWarning($"Unhandled package! 0x{packetId:x2}");
@@ -187,14 +184,13 @@ internal class NetConnection : INetConnection
                     handshake.Address,
                     handshake.Port,
                     handshake.NextState);
-                Version = handshake.ProtocolVersion;
                 if (handshake.NextState == 1)
                 {
                     ConnectionState = ConnectionState.Status;
                 }
                 if (handshake.NextState == 2)
                 {
-                    PacketHandler = PacketHandlerFactory.Create(Version, PacketsQueue.Add);
+                    PacketHandler = new PacketHandler(ServiceProvider, PacketsQueue.Add);
                     ConnectionState = ConnectionState.Login;
                     PacketHandler.ChangeStateTo(ConnectionState);
                     Logger.LogDebug("Change state to login!");
@@ -230,5 +226,4 @@ internal class NetConnection : INetConnection
             outData = outMemoryStream.ToArray();
         }
     }
-    
 }

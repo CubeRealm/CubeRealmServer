@@ -7,7 +7,6 @@ using CubeRealm.Network.Base.Connection;
 using CubeRealmServer.API;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Network;
 using NetworkAPI;
 
 namespace CubeRealm.Network.Base;
@@ -71,7 +70,7 @@ public class NetServer : INetServer
         connection.Start();
     }
     
-    public static IDictionary<int, IProtocolInformation> LoadFactories()
+    /*public static IDictionary<int, IProtocolInformation> LoadFactories()
     {
         string dir = AppContext.BaseDirectory;
         string pattern = "CubeRealm.Network.Version*.dll";
@@ -90,5 +89,5 @@ public class NetServer : INetServer
                     .Select(item => new KeyValuePair<int, IProtocolInformation>(item.Version, item))
             )
         );
-    }
+    }*/
 }

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Network;
 using NetworkAPI;
 using Newtonsoft.Json;
 using Plugin;
@@ -74,14 +73,14 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         {
             PluginActivator = pluginActivator = ServiceProvider.GetOriginalService<IPluginActivator, PluginActivator>();
 
-            WorldManager manager = ServiceProvider.GetOriginalService<IWorldManager, WorldManager>();
+            Worlds manager = ServiceProvider.GetOriginalService<IWorlds, Worlds>();
             
             pluginActivator.Activate();
             pluginActivator.Action("Plugin {} loaded", plugin =>
             {
                 plugin.Load();
                 if (plugin.DefaultWorld is {  } world)
-                    manager.Load(world);
+                    manager.LoadWorld(world);
             });
             Logger.LogInformation("Activated");
         }, cancellationToken);
@@ -91,11 +90,6 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         
         await Task.Run(() =>
         {
-            PacketFactory packetFactory = ServiceProvider.GetOriginalService<IPacketFactory, PacketFactory>();
-            packetFactory.AddPackets();
-            
-            ServiceProvider.GetRequiredService<NetServerPacketHandlerFactory>();
-            
             NetServer netServer;
             Network = netServer = ServiceProvider.GetOriginalService<INetServer, NetServer>();
             

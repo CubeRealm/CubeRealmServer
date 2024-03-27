@@ -1,7 +1,7 @@
 using CubeRealm.Network.Base.API.PacketsBase;
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealm.Network.Version765.Packets.Configuration.ToClient;
+namespace CubeRealm.Network.Base.API.Packets.Configuration.ToClient;
 
 public class ClientboundKeepAlive : Packet<ClientboundKeepAlive>, IToClient
 {

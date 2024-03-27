@@ -1,4 +1,5 @@
 using World.API;
+using World.API.World;
 
 namespace PluginAPI;
 
@@ -33,5 +34,5 @@ public interface IPlugin
     /// Method Enable executing after all plugins has been added
     /// </summary>
     void Enable();
-    MinecraftWorld? DefaultWorld { get; }
+    IMinecraftWorld? DefaultWorld { get; }
 }

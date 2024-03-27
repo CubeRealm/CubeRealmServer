@@ -1,7 +1,7 @@
 using CubeRealm.Network.Base.API.PacketsBase;
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealm.Network.Version765.Packets.Play.ToClient;
+namespace CubeRealm.Network.Base.API.Packets.Play.ToClient;
 
 public class ServerData : Packet<ServerData>, IToClient
 {

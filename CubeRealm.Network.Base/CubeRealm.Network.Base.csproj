@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CubeRealm.Network.Version765\CubeRealm.Network.Version765.csproj" />
       <ProjectReference Include="..\CubeRealmServer.API\CubeRealmServer.API.csproj" />
       <ProjectReference Include="..\CubeRealm.Network.Base.API\CubeRealm.Network.Base.API.csproj" />
     </ItemGroup>

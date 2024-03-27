@@ -1,7 +1,7 @@
 using CubeRealm.Network.Base.API.PacketsBase;
 using NetworkAPI.Protocol.Util;
 
-namespace CubeRealm.Network.Version765.Packets.Login.ToClient;
+namespace CubeRealm.Network.Base.API.Packets.Login.ToClient;
 
 public class LoginSuccess : Packet<LoginSuccess>, IToServer
 {

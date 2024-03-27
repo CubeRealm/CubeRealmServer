@@ -1,9 +1,8 @@
 using System.Net;
 using System.Text;
 using NetworkAPI.Protocol.Util;
-using NetworkAPI.Protocol.Util.Exceptions;
 
-namespace Network;
+namespace CubeRealm.Network.Base;
 
 public class MinecraftStream : Stream, IMinecraftStream
 {
