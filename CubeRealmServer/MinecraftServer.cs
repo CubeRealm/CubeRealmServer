@@ -72,15 +72,11 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         await Task.Run(() =>
         {
             PluginActivator = pluginActivator = ServiceProvider.GetOriginalService<IPluginActivator, PluginActivator>();
-
-            Worlds manager = ServiceProvider.GetOriginalService<IWorlds, Worlds>();
             
             pluginActivator.Activate();
             pluginActivator.Action("Plugin {} loaded", plugin =>
             {
                 plugin.Load();
-                if (plugin.DefaultWorld is {  } world)
-                    manager.LoadWorld(world);
             });
             Logger.LogInformation("Activated");
         }, cancellationToken);

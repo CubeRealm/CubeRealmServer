@@ -34,5 +34,4 @@ public interface IPlugin
     /// Method Enable executing after all plugins has been added
     /// </summary>
     void Enable();
-    IMinecraftWorld? DefaultWorld { get; }
 }
