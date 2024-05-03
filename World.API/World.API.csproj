@@ -10,4 +10,8 @@
       <ProjectReference Include="..\CubeRealm.Network.Base.API\CubeRealm.Network.Base.API.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="System.ServiceModel.Primitives" Version="8.0.0" />
+    </ItemGroup>
+
 </Project>

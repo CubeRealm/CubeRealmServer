@@ -3,39 +3,39 @@ using CubeRealm.Network.Base.API.Packets.Configuration.ToBoth;
 using CubeRealm.Network.Base.API.Packets.Login.ToClient;
 using CubeRealm.Network.Base.API.Packets.Login.ToServer;
 using CubeRealm.Network.Base.API.PacketsBase;
-using Microsoft.Extensions.DependencyInjection;
+using CubeRealm.Network.Base.Connection;
 using Microsoft.Extensions.Logging;
+using World.API;
+using World.API.Content.Entity;
 
 namespace CubeRealm.Network.Base.PacketsBase;
 
-public class PacketHandler(IServiceProvider serviceProvider, Action<IPacket> sendPacket) : IPacketHandler
+internal class PacketHandler(ILogger<PacketHandler> logger, NetConnection connection, IEntityFactory entityFactory) : IPacketHandler
 {
-    private ILogger<PacketHandler> Logger { get; } = serviceProvider.GetRequiredService<ILogger<PacketHandler>>();
-    private IPacketFactory PacketFactory { get; } = serviceProvider.GetRequiredService<IPacketFactory>();
+    private string Name;
+    private Guid UUID;
     
-    public event EventHandler<ConnectionState>? NewState;
-
     public void HandlePacket(IPacket packet)
     {
-        Logger.LogDebug("Handle packet {}", packet.GetType().Name);
+        logger.LogDebug("Handle packet {}", packet.GetType().Name);
         if (packet is LoginStart loginStart)
         {
-            Logger.LogInformation("Start login player {}", loginStart.Name);
-            sendPacket(new LoginSuccess
+            logger.LogInformation("Start login player {}", loginStart.Name);
+            connection.Collector.AddToNext(new LoginSuccess
             {
-                Username = loginStart.Name,
-                UUID = loginStart.PlayerUUID
+                Username = Name = loginStart.Name,
+                UUID = UUID = loginStart.PlayerUUID
             });
         }
         if (packet is LoginAcknowledged loginAcknowledged)
         {
-            Logger.LogInformation("Configure player");
-            NewState?.Invoke(this, ConnectionState.Configuration);
-            sendPacket(new FinishConfiguration());
+            logger.LogInformation("Configure player");
+            connection.ConnectionState = ConnectionState.Configuration;
+            connection.Collector.AddToNext(new FinishConfiguration());
         }
         if (packet is LoginPluginResponse loginPluginRequest)
         {
-            sendPacket(new LoginPluginRequest()
+            connection.Collector.AddToNext(new LoginPluginRequest()
             {
                 MessageId = 0,
                 Channel = "minecraft",
@@ -44,14 +44,15 @@ public class PacketHandler(IServiceProvider serviceProvider, Action<IPacket> sen
         }
         if (packet is FinishConfiguration configuration)
         {
-            Logger.LogInformation("Configure player end");
-            NewState?.Invoke(this, ConnectionState.Play);
+            logger.LogInformation("Configure player end");
+            connection.ConnectionState = ConnectionState.Play;
+            Player player = entityFactory.CreatePlayer(connection, builder => {}); //TODO Player spawn
         }
     }
 
     public void ChangeStateTo(ConnectionState connectionState)
     {
-        Logger.LogDebug("Change state to {}", connectionState);
+        logger.LogDebug("Change state to {}", connectionState);
         if (ConnectionState.Login == connectionState)
         {
             

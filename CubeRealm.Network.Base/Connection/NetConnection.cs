@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.Net.Sockets;
 using CubeRealm.Network.Base.API;
 using CubeRealm.Network.Base.API.PacketsBase;
-using CubeRealm.Network.Base.PacketsBase;
 using CubeRealm.Network.Base.PacketsBase.Packets;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToBoth;
 using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
@@ -10,6 +9,7 @@ using CubeRealm.Network.Base.PacketsBase.Packets.Status.ToServer;
 using CubeRealmServer.API;
 using Ionic.Zlib;
 using Microsoft.Extensions.Logging;
+using NetworkAPI.Protocol.Util;
 using CompressionLevel = Ionic.Zlib.CompressionLevel;
 using CompressionMode = Ionic.Zlib.CompressionMode;
 
@@ -17,32 +17,50 @@ namespace CubeRealm.Network.Base.Connection;
 
 internal class NetConnection : INetConnection
 {
-    public bool IsConnected { get; private set; }
+    private ConnectionState _connectionState;
     
-    public bool CompressionEnabled { get; private set; }
-    public ConnectionState ConnectionState { get; private set; }
-
     private BlockingCollection<IPacket> PacketsQueue { get; } = new ();
     
     private ILogger<NetConnection> Logger { get; }
-    private IServiceProvider ServiceProvider { get; }
     private Socket Socket { get; }
-    private IPacketHandler PacketHandler { get; set; }
     private IMinecraftServer MinecraftServer { get; }
     private CancellationTokenSource CancellationToken { get; }
-    private Task WriteStream { get; }
+   
+    private IPacketHandler PacketHandler { get; set; }
     private Task ReadStream { get; }
-    private PacketFactory PacketFactory { get; }
+    private IPacketFactory PacketFactory { get; }
     
-    internal NetConnection(ILogger<NetConnection> logger, IServiceProvider serviceProvider, PacketFactory packetFactory, IMinecraftServer server, Socket socket)
+    public bool IsConnected { get; private set; }
+    
+    public bool CompressionEnabled { get; private set; }
+    public IPacketCollector Collector { get; }
+
+    public ConnectionState ConnectionState
+    {
+        get => _connectionState;
+        internal set
+        {
+            _connectionState = value;
+            NewConnectionState?.Invoke(this, _connectionState);
+        }
+    }
+
+    public event EventHandler<ConnectionState>? NewConnectionState;
+    
+    internal NetConnection(
+        ILogger<NetConnection> logger,
+        IPacketFactory packetFactory, 
+        IMinecraftServer server,
+        NetworkFactory networkFactory,
+        Socket socket)
     {
         Logger = logger;
-        ServiceProvider = serviceProvider;
         Socket = socket;
 
         CancellationToken = new CancellationTokenSource();
 
-        WriteStream = new Task(WriteToStream);
+        Collector = networkFactory.CreateCollector(this);
+        PacketHandler = networkFactory.CreateHandler(this);
         ReadStream = new Task(ReadFromStream);
         
         PacketFactory = packetFactory;
@@ -55,7 +73,6 @@ internal class NetConnection : INetConnection
 
     internal void Start()
     {
-        WriteStream.Start();
         ReadStream.Start();
     }
     
@@ -65,30 +82,14 @@ internal class NetConnection : INetConnection
         Socket.Shutdown(SocketShutdown.Both);
         Socket.Close();
         Socket.Dispose();
-        IsConnected = true;
+        IsConnected = false;
     }
 
-    private void WriteToStream()
+    public void MinecraftStream(Action<IMinecraftStream> actionStream)
     {
-        Logger.LogTrace("Connection writer started {}", Thread.CurrentThread.Name);
         using (NetworkStream networkStream = new NetworkStream(Socket))
-        {
             using (MinecraftStream stream = new MinecraftStream(networkStream))
-            {
-                IPacket packet;
-                while ((packet = PacketsQueue.Take()) != null && !CancellationToken.IsCancellationRequested)
-                {
-                    Logger.LogTrace(">> Sending packet {}", packet.GetType().Name);
-                    MinecraftStream fakeMcStream = new MinecraftStream(new MemoryStream());
-                    fakeMcStream.WriteVarInt(packet.PacketId);
-                    packet.Write(fakeMcStream);
-                    int packetLen = (int)fakeMcStream.Length;
-                    
-                    stream.WriteVarInt(packetLen);
-                    stream.Write(((MemoryStream) fakeMcStream.BaseStream).ToArray());
-                }
-            }
-        }
+                actionStream(stream);
     }
     
     private void ReadFromStream()
@@ -190,7 +191,6 @@ internal class NetConnection : INetConnection
                 }
                 if (handshake.NextState == 2)
                 {
-                    PacketHandler = new PacketHandler(ServiceProvider, PacketsQueue.Add);
                     ConnectionState = ConnectionState.Login;
                     PacketHandler.ChangeStateTo(ConnectionState);
                     Logger.LogDebug("Change state to login!");

@@ -1,23 +1,24 @@
+using System.Collections.Concurrent;
 using CubeRealm.Network.Base;
 using CubeRealm.Network.Base.API;
 using CubeRealm.Network.Base.PacketsBase;
 using CubeRealmServer.API;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NetworkAPI;
 using Newtonsoft.Json;
 using Plugin;
 using PluginAPI;
-using World;
-using World.API;
 
 namespace CubeRealmServer;
 
 public class MinecraftServer : IHostedService, IMinecraftServer
 {
     private Motd _motd;
+    
+    private SynchronizedCollection<ITickable> _ticking = new(new List<ITickable>());
+    private ConcurrentBag<CancellationTokenRegistration> _tickingCancellations = new();
+    private ConcurrentQueue<ITickable> _nextTick = new();
     
     private ILogger<MinecraftServer> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
@@ -61,6 +62,35 @@ public class MinecraftServer : IHostedService, IMinecraftServer
         };
     }
 
+    private void DeleteTicking(object? o)
+    {
+        if (o is not int index)
+            return;
+
+        if (_tickingCancellations.TryTake(out var registration))
+            registration.Dispose();
+        _ticking.RemoveAt(index);
+    }
+    
+    public void AddForTick(ITickable tickable)
+    {
+        lock (_nextTick)
+            _nextTick.Enqueue(tickable);
+    }
+
+    public void AddForTicking(ITickable tickable, CancellationToken cancellationToken)
+    {
+        lock (_ticking)
+        {
+            _ticking.Add(tickable);
+            lock (_tickingCancellations)
+            {
+                var registration = cancellationToken.Register(DeleteTicking, _tickingCancellations.Count);
+                _tickingCancellations.Add(registration);
+            }
+        }
+    }
+    
     public async Task StartAsync(CancellationToken cancellationToken)
     { 
         Logger.LogInformation("Server start thread '{}'", Thread.CurrentThread.Name);

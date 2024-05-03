@@ -8,10 +8,15 @@
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="System.ServiceModel.Primitives" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\World.API\World.API.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Content\" />
     </ItemGroup>
 
 </Project>

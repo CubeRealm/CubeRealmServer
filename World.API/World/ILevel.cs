@@ -1,6 +1,7 @@
 using World.API.Block;
 using World.API.Chunk;
 using World.API.Coords;
+using World.API.Entity;
 
 namespace World.API.World;
 
@@ -26,4 +27,6 @@ public interface ILevel
     /// </summary>
     /// <param name="location"></param>
     void RemoveBlock(Location location);
+
+    void SpawnEntity(IEntity entity);
 }

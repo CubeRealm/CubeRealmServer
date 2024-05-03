@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
 using CubeRealm.Network.Base.API;
@@ -17,10 +18,10 @@ public class NetServer : INetServer
     private CancellationTokenSource CancellationToken { get; set; }
     private Socket ServerSocket { get; }
     private IOptions<ServerSettings> Options { get; }
-    private ConnectionFactory ConnectionFactory { get; }
-    private List<NetConnection> Connections { get; }
+    private NetworkFactory ConnectionFactory { get; }
+    private ConcurrentBag<NetConnection> Connections { get; } = new();
 
-    public NetServer(ILogger<NetServer> logger, IOptions<ServerSettings> options, ConnectionFactory connectionFactory)
+    public NetServer(ILogger<NetServer> logger, IOptions<ServerSettings> options, NetworkFactory connectionFactory)
     {
         Logger = logger;
         CancellationToken = new CancellationTokenSource();
@@ -67,6 +68,7 @@ public class NetServer : INetServer
             return;
 
         NetConnection connection = ConnectionFactory.Create(client);
+        Connections.Add(connection);
         connection.Start();
     }
     

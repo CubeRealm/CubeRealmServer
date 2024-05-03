@@ -3,7 +3,7 @@ using NetworkAPI.Protocol.Util;
 
 namespace CubeRealm.Network.Base.PacketsBase.Packets.Status.ToClient;
 
-public class StatusResponse : Packet<StatusResponse>, IToServer
+public class StatusResponse : Packet<StatusResponse>, IToClient
 {
     public override int PacketId => 0x00;
 

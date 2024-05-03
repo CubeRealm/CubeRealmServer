@@ -60,8 +60,9 @@ class Program
             .AddSingleton<IMinecraftServer, MinecraftServer>()
             .AddSingleton<INetServer, NetServer>()
             .AddSingleton<IPacketFactory, PacketFactory>()
-            .AddSingleton<ConnectionFactory>()
-            .AddSingleton<IWorlds, Worlds>();
+            .AddSingleton<NetworkFactory>()
+            .AddSingleton<IWorlds, Worlds>()
+            .AddSingleton<IEntityFactory, EntityFactory>();
 
         string pluginsPath = section.GetSection("Plugins").GetSection("Directory").Value!;
         List<Type> pluginTypes = new List<Type>();
